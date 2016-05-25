@@ -23,7 +23,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 
         $query->setParameter('roleName', '%'.$roleName.'%');
 
-        var_dump($query->getSql());
+       // var_dump($query->getSql());
 
         return $query->getResult();
 

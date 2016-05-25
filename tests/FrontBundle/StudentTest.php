@@ -33,8 +33,12 @@ class StudentTest extends BaseTest
             $prof->setUsername('Antoine' . $item);
             $prof->setEmail('antoine.lucsko@gmail.com' . $item);
             $prof->setPassword('Antoine' . $item);
-            $student->addRole('ROLE_PROFESSOR');
+            $prof->addRole('ROLE_PROFESSOR');
+
             $student->addMyProf($prof);
+
+            $this->em->persist($prof);
+
         }
 
         $this->em->persist($student);
@@ -61,13 +65,12 @@ class StudentTest extends BaseTest
         }
 
         // one prof have many students
-
         $profs = null;
         $prof = null;
         $prof = new User;
         $prof->setUsername('Simon');
         $prof->setEmail('simon.lucsko@gmail.com');
-        $student->addRole('ROLE_PROFESSOR');
+        $prof->addRole('ROLE_PROFESSOR');
         $prof->setPassword('Simon');
 
         // generate students
@@ -78,6 +81,8 @@ class StudentTest extends BaseTest
             $student->setPassword('AntoineM' . $item);
             $student->addRole('ROLE_STUDENT');
             $prof->addMyStudent($student);
+
+            $this->em->persist($student);
         }
 
         $this->em->persist($prof);
