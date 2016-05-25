@@ -1,0 +1,107 @@
+
+Level:
+  -
+    id: 1
+    parentId: NULL
+    name: "6 eme"
+  -
+    id: 2
+    parentId: NULL
+    name: "5 eme"
+  -
+    id: 3
+    parentId: NULL
+    name: "4 eme"
+  -
+    id: 4
+    parentId: NULL
+    name: "3 eme"
+  -
+    id: 5
+    parentId: NULL
+    name: "2 eme"
+  -
+    id: 6
+    parentId: NULL
+    name: "1 ere"
+
+Module:
+  -
+    id: 7
+    parentId: 1
+    name: "arithmétique"
+  -
+    id: 8
+    parentId: 2
+    name: "géométrie"
+  -
+    id: 9
+    parentId: 1
+    name: "géométrie"
+
+Category:
+  -
+    id: 10
+    parentId: 7
+    name: "addition et multiplication"
+  -
+    id: 11
+    parentId: 7
+    name: "les tables de multiplication"
+
+Exercice:
+  -
+    id: 1
+    title: "addition et multiplication 1"
+    content: "blabla"
+  -
+    id: 2
+    title: "les tables de multiplication 2"
+    content: "blabla"
+  -
+    id: 3
+    title: "addition et multiplication 3"
+    content: "blabla"
+  -
+    id: 4
+    title: "les tables de multiplication 4"
+    content: "blabla"
+
+Answer:
+  -
+    id: 1
+    post_parent: 1
+    title: "addition et multiplication 1 answer"
+    content: "blabla"
+  -
+    id: 2
+    post_parent: 2
+    title: "les tables de multiplication 2 answer"
+    content: "blabla"
+  -
+    id: 3
+    post_parent: 3
+    title: "addition et multiplication 3 answer"
+    content: "blabla"
+  -
+    id: 4
+    post_parent: 4
+    title: "les tables de multiplication 4 answer"
+    content: "blabla"
+  -
+    id: 5
+    post_parent: 4
+    title: "les tables de multiplication 4.1 answer"
+    content: "blabla"
+
+Method:
+  -
+    id: 1
+    post_parent: 1
+    title: "addition et multiplication 1 method"
+    content: "blabla"
+  -
+    id: 2
+    post_parent: 2
+    title: "les tables de multiplication 2 method"
+    content: "blabla"

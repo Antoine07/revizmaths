@@ -1,0 +1,154 @@
+<?php
+
+namespace Reviz\FrontBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Student
+ *
+ * @ORM\Table(name="students")
+ * @ORM\Entity(repositoryClass="Reviz\FrontBundle\Repository\StudentRepository")
+ */
+class Student
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $nbModule;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $nbFormule;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Reviz\FrontBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column( type="boolean", options={"default":true}))
+     */
+    private $lock;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nbModule
+     *
+     * @param integer $nbModule
+     *
+     * @return Student
+     */
+    public function setNbModule($nbModule)
+    {
+        $this->nbModule = $nbModule;
+
+        return $this;
+    }
+
+    /**
+     * Get nbModule
+     *
+     * @return integer
+     */
+    public function getNbModule()
+    {
+        return $this->nbModule;
+    }
+
+    /**
+     * Set nbFormule
+     *
+     * @param integer $nbFormule
+     *
+     * @return Student
+     */
+    public function setNbFormule($nbFormule)
+    {
+        $this->nbFormule = $nbFormule;
+
+        return $this;
+    }
+
+    /**
+     * Get nbFormule
+     *
+     * @return integer
+     */
+    public function getNbFormule()
+    {
+        return $this->nbFormule;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Reviz\FrontBundle\Entity\User $user
+     *
+     * @return Student
+     */
+    public function setUser(\Reviz\FrontBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Reviz\FrontBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set lock
+     *
+     * @param boolean $lock
+     *
+     * @return Student
+     */
+    public function setLock($lock)
+    {
+        $this->lock = $lock;
+
+        return $this;
+    }
+
+    /**
+     * Get lock
+     *
+     * @return boolean
+     */
+    public function getLock()
+    {
+        return $this->lock;
+    }
+}

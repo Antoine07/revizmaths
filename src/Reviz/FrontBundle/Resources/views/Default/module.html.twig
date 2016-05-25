@@ -1,0 +1,8 @@
+{% if not modules is empty %}
+<ul>
+    <h2>{{ title }}</h2>
+    {% for module in modules %}
+    <li>{{module.name}}</li>
+    {% endfor %}
+</ul>
+{% endif %}

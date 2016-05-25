@@ -1,0 +1,129 @@
+<?php
+
+namespace Reviz\FrontBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Quiz
+ *
+ * @ORM\Table(name="quizzes")
+ * @ORM\Entity(repositoryClass="Reviz\FrontBundle\Repository\QuizRepository")
+ */
+class Quiz
+{
+
+    use StatusTrait;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\Post")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $post;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Quiz
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Quiz
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set post
+     *
+     * @param \Reviz\FrontBundle\Entity\Post $post
+     *
+     * @return Quiz
+     */
+    public function setPost(\Reviz\FrontBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \Reviz\FrontBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+}

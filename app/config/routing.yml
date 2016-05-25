@@ -1,0 +1,11 @@
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+reviz_front:
+    resource: "@RevizFrontBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+reviz_user:
+    resource: "@RevizUserBundle/Controller/"
+    type:     annotation

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+<h2>id du dernier exercice {{ id }}</h2>
+    <p>
+        {% for exercice in exercices %}
+            {{ exercice.id }} ,, {{ exercice.title }},, {{ exercice.createdAt | date('d-m-Y')}}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+</body>
+</html>

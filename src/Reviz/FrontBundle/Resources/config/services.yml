@@ -1,0 +1,4 @@
+services:
+#    reviz_front.example:
+#        class: Reviz\FrontBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

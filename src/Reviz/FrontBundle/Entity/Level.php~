@@ -1,0 +1,76 @@
+<?php
+
+namespace Reviz\FrontBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Level
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="taxonomies")
+ */
+class Level extends Taxonomy
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ref_level", type="string", length=100, unique=true, nullable=true)
+     */
+    private $refLevel;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_module", type="smallint")
+     */
+    private $nbModule;
+
+    /**
+     * Set refLevel
+     *
+     * @param string $refLevel
+     *
+     * @return Level
+     */
+    public function setRefLevel($refLevel)
+    {
+        $this->refLevel = $refLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get refLevel
+     *
+     * @return string
+     */
+    public function getRefLevel()
+    {
+        return $this->refLevel;
+    }
+
+    /**
+     * Set nbModule
+     *
+     * @param integer $nbModule
+     *
+     * @return Level
+     */
+    public function setNbModule($nbModule)
+    {
+        $this->nbModule = $nbModule;
+
+        return $this;
+    }
+
+    /**
+     * Get nbModule
+     *
+     * @return integer
+     */
+    public function getNbModule()
+    {
+        return $this->nbModule;
+    }
+}

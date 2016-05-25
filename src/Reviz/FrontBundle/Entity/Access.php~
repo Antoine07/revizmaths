@@ -1,0 +1,229 @@
+<?php
+
+namespace Reviz\FrontBundle\Entity;
+
+/**
+ * Access
+ */
+class Access
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    private $endedAt;
+
+    /**
+     * @var boolean
+     */
+    private $lock = false;
+
+    /**
+     * @var \Reviz\FrontBundle\Entity\Student
+     */
+    private $student;
+
+    /**
+     * @var \Reviz\FrontBundle\Entity\Taxonomy
+     */
+    private $taxonomy;
+
+    /**
+     * @var \Reviz\FrontBundle\Entity\Post
+     */
+    private $post;
+
+    /**
+     * @var \Reviz\FrontBundle\Entity\Media
+     */
+    private $media;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Access
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set endedAt
+     *
+     * @param \DateTime $endedAt
+     *
+     * @return Access
+     */
+    public function setEndedAt($endedAt)
+    {
+        $this->endedAt = $endedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get endedAt
+     *
+     * @return \DateTime
+     */
+    public function getEndedAt()
+    {
+        return $this->endedAt;
+    }
+
+    /**
+     * Set lock
+     *
+     * @param boolean $lock
+     *
+     * @return Access
+     */
+    public function setLock($lock)
+    {
+        $this->lock = $lock;
+
+        return $this;
+    }
+
+    /**
+     * Get lock
+     *
+     * @return boolean
+     */
+    public function getLock()
+    {
+        return $this->lock;
+    }
+
+    /**
+     * Set student
+     *
+     * @param \Reviz\FrontBundle\Entity\Student $student
+     *
+     * @return Access
+     */
+    public function setStudent(\Reviz\FrontBundle\Entity\Student $student = null)
+    {
+        $this->student = $student;
+
+        return $this;
+    }
+
+    /**
+     * Get student
+     *
+     * @return \Reviz\FrontBundle\Entity\Student
+     */
+    public function getStudent()
+    {
+        return $this->student;
+    }
+
+    /**
+     * Set taxonomy
+     *
+     * @param \Reviz\FrontBundle\Entity\Taxonomy $taxonomy
+     *
+     * @return Access
+     */
+    public function setTaxonomy(\Reviz\FrontBundle\Entity\Taxonomy $taxonomy = null)
+    {
+        $this->taxonomy = $taxonomy;
+
+        return $this;
+    }
+
+    /**
+     * Get taxonomy
+     *
+     * @return \Reviz\FrontBundle\Entity\Taxonomy
+     */
+    public function getTaxonomy()
+    {
+        return $this->taxonomy;
+    }
+
+    /**
+     * Set post
+     *
+     * @param \Reviz\FrontBundle\Entity\Post $post
+     *
+     * @return Access
+     */
+    public function setPost(\Reviz\FrontBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \Reviz\FrontBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * Set media
+     *
+     * @param \Reviz\FrontBundle\Entity\Media $media
+     *
+     * @return Access
+     */
+    public function setMedia(\Reviz\FrontBundle\Entity\Media $media = null)
+    {
+        $this->media = $media;
+
+        return $this;
+    }
+
+    /**
+     * Get media
+     *
+     * @return \Reviz\FrontBundle\Entity\Media
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+}
+

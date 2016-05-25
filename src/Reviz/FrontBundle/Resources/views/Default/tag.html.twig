@@ -1,0 +1,8 @@
+{% if not course.taxonomies.empty %}
+<p>
+    Cette annonce est parue dans les catégories suivantes :
+    {% for tag in course.taxonomies %}
+    {{ tag.name }}{% if not loop.last %}, {% endif %}
+    {% endfor %}
+</p>
+{% endif %}

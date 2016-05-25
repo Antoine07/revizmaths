@@ -1,0 +1,277 @@
+<?php
+
+namespace Reviz\FrontBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Command
+ *
+ * @ORM\Table(name="commands")
+ * @ORM\Entity(repositoryClass="Reviz\FrontBundle\Repository\CommandRepository")
+ */
+class Command
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", cascade={"persist"})
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\Taxonomy", cascade={"persist"})
+     */
+    private $taxonomy;
+
+    /**
+     * @ORM\Column(name="access_posts", type="string", nullable=true))
+     */
+    private $accessPosts;
+
+    /**
+     * @ORM\Column(name="access_videos", type="string", nullable=true))
+     */
+    private $accessVideos;
+
+
+    /**
+     * @ORM\Column(name="started_at", type="datetime", nullable=true))
+     */
+    private $started;
+
+    /**
+     * @ORM\Column(name="ended_at", type="datetime", nullable=true))
+     */
+    private $endedAt;
+
+    /**
+     * @var boolean $isLoked
+     * @ORM\Column(name="isLocked", type="boolean")
+     */
+    private $isLocked = true;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+
+        $now = new \DateTime('NOW');
+        $end = new \DateTime('NOW');
+        $this->setStarted($now);
+        $now->modify('+1 day');
+        $this->setEndedAt($now);
+
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set accessPosts
+     *
+     * @param string $accessPosts
+     *
+     * @return ModuleAccess
+     */
+    public function setAccessPosts($accessPosts)
+    {
+        $this->accessPosts = $accessPosts;
+
+        return $this;
+    }
+
+    /**
+     * Get accessPosts
+     *
+     * @return string
+     */
+    public function getAccessPosts()
+    {
+        return $this->accessPosts;
+    }
+
+    /**
+     * Set accessVideos
+     *
+     * @param string $accessVideos
+     *
+     * @return ModuleAccess
+     */
+    public function setAccessVideos($accessVideos)
+    {
+        $this->accessVideos = $accessVideos;
+
+        return $this;
+    }
+
+    /**
+     * Get accessVideos
+     *
+     * @return string
+     */
+    public function getAccessVideos()
+    {
+        return $this->accessVideos;
+    }
+
+    /**
+     * Set term
+     *
+     * @param string $term
+     *
+     * @return ModuleAccess
+     */
+    public function setTerm($term)
+    {
+        $this->term = $term;
+
+        return $this;
+    }
+
+    /**
+     * Get term
+     *
+     * @return string
+     */
+    public function getTerm()
+    {
+        return $this->term;
+    }
+
+    /**
+     * Set started
+     *
+     * @param \DateTime $started
+     *
+     * @return ModuleAccess
+     */
+    public function setStarted($started)
+    {
+        $this->started = $started;
+
+        return $this;
+    }
+
+    /**
+     * Get started
+     *
+     * @return \DateTime
+     */
+    public function getStarted()
+    {
+        return $this->started;
+    }
+
+    /**
+     * Set endedAt
+     *
+     * @param \DateTime $endedAt
+     *
+     * @return ModuleAccess
+     */
+    public function setEndedAt($endedAt)
+    {
+        $this->endedAt = $endedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get endedAt
+     *
+     * @return \DateTime
+     */
+    public function getEndedAt()
+    {
+        return $this->endedAt;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Reviz\FrontBundle\Entity\User $user
+     *
+     * @return ModuleAccess
+     */
+    public function setUser(\Reviz\FrontBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Reviz\FrontBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set taxonomy
+     *
+     * @param \Reviz\FrontBundle\Entity\Taxonomy $taxonomy
+     *
+     * @return ModuleAccess
+     */
+    public function setTaxonomy(\Reviz\FrontBundle\Entity\Taxonomy $taxonomy = null)
+    {
+        $this->taxonomy = $taxonomy;
+
+        return $this;
+    }
+
+    /**
+     * Get taxonomy
+     *
+     * @return \Reviz\FrontBundle\Entity\Taxonomy
+     */
+    public function getTaxonomy()
+    {
+        return $this->taxonomy;
+    }
+
+    /**
+     * Set isLocked
+     *
+     * @param boolean $isLocked
+     *
+     * @return ModuleAccess
+     */
+    public function setIsLocked($isLocked)
+    {
+        $this->isLocked = $isLocked;
+
+        return $this;
+    }
+
+    /**
+     * Get isLocked
+     *
+     * @return boolean
+     */
+    public function getIsLocked()
+    {
+        return $this->isLocked;
+    }
+}

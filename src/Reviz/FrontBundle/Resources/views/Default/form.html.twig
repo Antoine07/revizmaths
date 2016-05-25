@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+{{ form_start(form, {'method': 'post', 'attr' : {'class': 'foo', 'id': 'bar'}}) }}
+{{ form_row(form.title) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+{% if is_granted('ROLE_ADMIN') %}
+    <li><a href="#">Hep salut toi l'admin du site</a></li>
+{% endif %}
+
+</body>
+</html>
