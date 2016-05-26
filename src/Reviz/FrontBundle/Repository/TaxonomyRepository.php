@@ -56,16 +56,16 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
- * nbResourceByModule
- *
- * @param $resource
- * @param $name
- * @return array
- */
+     * nbResourceByModule
+     *
+     * @param $resource
+     * @param $name
+     * @return array
+     */
     public function nbResourceByModule($resource, $name)
     {
 
-        $resource = 'nb'.ucfirst(strtolower($resource));
+        $resource = 'nb' . ucfirst(strtolower($resource));
 
         $dql = sprintf('
         SELECT SUM(c.%s) as nb
@@ -103,8 +103,6 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
             ->createQuery($dql);
 
         $query->setParameter('id', $id);
-
-        //var_dump($query->getSql());
 
         return $query->getResult();
     }

@@ -25,7 +25,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         $dql = sprintf('
                  SELECT p
                  FROM %s p
-                 JOIN RevizFrontBundle:Taxonomy t
+                 JOIN p.taxonomies t
                  WHERE t.id = :termId
                  ',
             $customType
@@ -86,10 +86,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
                       WHERE pm.post_id = ?', $rsm
             );
 
-        //var_dump($query->getSql());
-
         $query->setParameter(1, $postId);
-
 
         return $query->getResult();
     }

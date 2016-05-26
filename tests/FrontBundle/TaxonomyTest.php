@@ -5,14 +5,16 @@ namespace Test\FrontBundle;
 use Reviz\FrontBundle\Entity\Exercice;
 use Reviz\FrontBundle\Entity\User;
 
+/**
+ * all tests based to a specifics data in BaseTest
+ *
+ * Class TaxonomyTest
+ * @package Test\FrontBundle
+ */
 class TaxonomyTest extends BaseTest
 {
 
-
-    /**
-     * @test create module
-     */
-    public function testCreateLevelModule()
+    public function testCreateTermsTaxonomyLevelModuleCategory()
     {
 
         $levels = $this->em
@@ -35,11 +37,6 @@ class TaxonomyTest extends BaseTest
 
     }
 
-    /**
-     *  testNumberModuleByLevel
-     *
-     * @test number of module by level
-     */
     public function testNumberModuleByLevel()
     {
         $modules = $this->em
@@ -50,12 +47,7 @@ class TaxonomyTest extends BaseTest
 
     }
 
-    /**
-     * testNbCustomByTerm
-     *
-     * @test add resource result increase decrease counter in term taxonomy
-     */
-    public function testNbCustomByTerm()
+    public function testNbCustomPostTypeByCategoryAndModule()
     {
 
         $add = $this->add();

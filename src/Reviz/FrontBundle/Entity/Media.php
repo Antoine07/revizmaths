@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class Media implements MediaType
 {
+
     /**
      * @var int
      *

@@ -11,6 +11,51 @@ namespace Reviz\FrontBundle\Repository;
 class CommandRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    /**
+     * search
+     *
+     * @description if term, post or video is commanded by user
+     *
+     * @param $objectId
+     * @param $term
+     * @param $userId
+     * @return boolean
+     */
+    public function search($objectId, $term, $userId)
+    {
 
+        $term = strtolower($term);
+
+        if (!in_array($term, ['video', 'post', 'category', 'module']))
+            throw new \RuntimeException(sprintf('this term do not accepted for search command, %s ', $term));
+
+        if (in_array($term, ['video', 'post']))
+        {
+            $where = 'WHERE c.access' . ucfirst($term) . 's LIKE :objectId';
+            $objectId = '%'.$objectId.'%';
+        }
+        else
+            $where = 'WHERE c.taxonomy = :objectId';
+
+        $dql = sprintf("
+                SELECT COUNT(c.id) as nb
+                FROM RevizFrontBundle:Command c
+                %s AND c.user = :userId",
+                 $where
+            );
+
+        $query = $this->getEntityManager()
+            ->createQuery($dql);
+
+        $query->setParameter('objectId', $objectId);
+        $query->setParameter('userId', $userId);
+
+        $nb =  $query->getResult();
+
+        if($nb[0]['nb'] > 0) return true;
+
+        return false;
+
+    }
 
 }

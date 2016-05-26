@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Antoine
- * Date: 24/05/2016
- * Time: 11:42
- */
 
 namespace Test\FrontBundle;
 
@@ -15,21 +9,21 @@ use Reviz\FrontBundle\Entity\Command;
 class StudentAccessTest extends BaseTest
 {
 
-    /**
-     * testCommandsAccessLevelByStudent
-     *
-     * @test access level lock/unlock student
-     */
-    public function testCommandsAccessLevelByStudent()
+    public function testCommandsAccessResourcesByStudent()
     {
         // data
-        //$this->setDataTerm('access_student');
         $add = $this->add();
-        // unit test if ok to add new category
+        // unit test if ok to add new category term_id 10
         $add('Category', 'addition et multiplication', 'Exercice', 10);
         $add('Category', 'addition et multiplication', 'Method', 15);
         $add('Category', 'addition et multiplication', 'Question', 7);
         $add('Category', 'addition et multiplication', 'Answer', 7);
+
+        // module do not accessed by student tester term_id 11
+        $add('Category', 'les tables de multiplication', 'Exercice', 2);
+        $add('Category', 'les tables de multiplication', 'Method', 5);
+        $add('Category', 'les tables de multiplication', 'Question', 3);
+        $add('Category', 'les tables de multiplication', 'Answer', 3);
 
         // student Tony id 2 and prof Antoine123 id 1
         $this->setUserData('access_student');
@@ -50,7 +44,7 @@ class StudentAccessTest extends BaseTest
 
         // add videos
         $exos = $this->em->getRepository('RevizFrontBundle:Post')
-            ->allPostByTermId(3, 'Exercice');
+            ->allPostByTermId(10, 'Exercice');
 
         $this->assertEquals(10, count($exos));
 
@@ -67,7 +61,7 @@ class StudentAccessTest extends BaseTest
 
         // add videos 7 into method
         $methods = $this->em->getRepository('RevizFrontBundle:Post')
-            ->allPostByTermId(3, 'Method');
+            ->allPostByTermId(10, 'Method');
 
         $this->assertEquals(15, count($methods));
 
@@ -84,10 +78,10 @@ class StudentAccessTest extends BaseTest
 
         $this->em->flush();
 
-        // check if 4 video by exo into catId 3
+        // check if 4 video by exo into catId 10
         $exos = null;
         $exos = $this->em->getRepository('RevizFrontBundle:Post')
-            ->allPostByTermId(3, 'Exercice');
+            ->allPostByTermId(10, 'Exercice');
 
         $this->assertEquals(10, count($exos));
 
@@ -100,10 +94,10 @@ class StudentAccessTest extends BaseTest
 
         }
 
-        // check if 7 video by method into catId 3
+        // check if 7 video by method into catId 10
         $methods = null;
         $methods = $this->em->getRepository('RevizFrontBundle:Post')
-            ->allPostByTermId(3, 'Method');
+            ->allPostByTermId(10, 'Method');
 
         $this->assertEquals(15, count($methods));
 
@@ -168,6 +162,33 @@ class StudentAccessTest extends BaseTest
 
         $this->assertEquals((10+15+2*7), count($posts));
         $this->assertEquals((4*10+7*15), count($videos));
+
+        // owner video is student with id 2 and student id 3 no access this resources
+        foreach($videos as $videoId)
+        {
+            $search = $this->em->getRepository('RevizFrontBundle:Command')
+                ->search($videoId, 'video', 2);
+
+            $searchNoAcc = $this->em->getRepository('RevizFrontBundle:Command')
+                ->search($videoId, 'video', 3);
+
+            $this->assertTrue($search);
+            $this->assertTrue(!$searchNoAcc);
+        }
+
+        foreach($posts as $postId)
+        {
+            $search = $this->em->getRepository('RevizFrontBundle:Command')
+                ->search($postId, 'post', 2);
+
+            $searchNoAcc = $this->em->getRepository('RevizFrontBundle:Command')
+                ->search($postId, 'post', 3);
+
+            $this->assertTrue($search);
+            $this->assertTrue(!$searchNoAcc);
+
+        }
+
 
 
     }

@@ -37,7 +37,6 @@ abstract class BaseTest extends KernelTestCase
         ]);
         $command->run($input, new NullOutput());
 
-// create schema
         $command = new CreateSchemaDoctrineCommand();
         $this->application->add($command);
         $input = new ArrayInput([
@@ -72,6 +71,8 @@ abstract class BaseTest extends KernelTestCase
     }
 
     /**
+     * getYaml
+     *
      * @param $fileName
      * @return mixed
      */
@@ -86,6 +87,12 @@ abstract class BaseTest extends KernelTestCase
         return $data;
     }
 
+    /**
+     * set data terms level module and category
+     *
+     * @param $fileName
+     *
+     */
     protected function setDataTerm($fileName)
     {
         $data = $this->getYaml($fileName);
@@ -136,7 +143,6 @@ abstract class BaseTest extends KernelTestCase
 
     }
 
-
     /**
      * setDataPost
      *
@@ -167,7 +173,7 @@ abstract class BaseTest extends KernelTestCase
         $this->em->flush();
     }
 
-    public function add()
+    protected function add()
     {
 
         return function ($term, $titleTerm, $resource, $nb) {
@@ -178,19 +184,10 @@ abstract class BaseTest extends KernelTestCase
             $category = $category[0];
 
             $this->setDataPost(ucfirst($resource), $category, $nb);
-            $category = null;
-
-            $category = $this->em
-                ->getRepository($repository)
-                ->findByName($titleTerm);
-            $category = $category[0];
-
-            $getNb = 'getNb' . ucfirst($resource);
-            $this->assertEquals($nb, $category->$getNb());
         };
     }
 
-    public function generator()
+    protected function generator()
     {
         return function ($max) {
             for ($i = 1; $i <= $max; $i++) {

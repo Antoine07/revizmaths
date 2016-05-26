@@ -14,11 +14,7 @@ class StudentTest extends BaseTest
      */
     public function testProfHaveManyStudentAndInverse()
     {
-        /*$add = $this->add();
-        $add('Category', 'addition et multiplication', 'Exercice', 20);*/
-
         // one user have many profs
-
         $student = new User;
         $student->setUsername('Tony');
         $student->setEmail('tony.lucsko@gmail.com');

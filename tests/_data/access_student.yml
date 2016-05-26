@@ -11,21 +11,3 @@ User:
     password: "Antoine123"
     role: "student"
     email: "antoine321.l@g.fr"
-
-Level:
-  -
-    id: 1
-    parentId: NULL
-    name: "6 eme"
-
-Module:
-  -
-    id: 2
-    parentId: 1
-    name: "arithmétique"
-
-Category:
-  -
-    id: 3
-    parentId: 2
-    name: "addition et multiplication"
