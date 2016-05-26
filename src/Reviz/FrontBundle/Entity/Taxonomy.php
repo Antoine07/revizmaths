@@ -51,6 +51,13 @@ abstract class Taxonomy
     /**
      * @var int
      *
+     * @ORM\Column(name="nb_course", type="smallint", options={"default"=0}, nullable=true)
+     */
+    private $nbCourse;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="nb_answer", type="smallint", options={"default"=0}, nullable=true)
      */
     private $nbAnswer;
@@ -340,5 +347,29 @@ abstract class Taxonomy
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set nbCourse
+     *
+     * @param integer $nbCourse
+     *
+     * @return Taxonomy
+     */
+    public function setNbCourse($nbCourse)
+    {
+        $this->nbCourse = $nbCourse;
+
+        return $this;
+    }
+
+    /**
+     * Get nbCourse
+     *
+     * @return integer
+     */
+    public function getNbCourse()
+    {
+        return $this->nbCourse;
     }
 }

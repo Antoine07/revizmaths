@@ -57,17 +57,16 @@ class User extends BaseUser
      */
     protected $nbFormule = 0;
 
-
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="myStudents", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="myStudents")
      */
     protected $myStudents;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="profsWithMe", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="profsWithMe")
      * @ORM\JoinTable(name="profs",
-     *      joinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id", nullable=true)},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="prof_id", referencedColumnName="id", nullable=true)}
+     *      joinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="prof_id", referencedColumnName="id")}
      *      )
      */
 

@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Apoutchika\LoremIpsumBundle\Services\LoremIpsum;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Reviz\FrontBundle\Entity\User;
 
 class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -32,20 +33,14 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
                 $post->setTitle($name);
                 $post->setContent($lorem->getParagraphs(rand(2, 5)));
                 $post->addTaxonomy($category[0]);
+                $post->setUser($professor[0]);
 
                 $manager->persist($post);
             }
 
-            $manager->flush();
-            $manager->clear();
         };
 
         // 6eme categories memory
-        $categories = [
-            'propriété de linéarité',
-            'tableau de proportionnalité',
-            'pourcentage'
-        ];
 
         $exercices = [
             'reconnaitre une situation proportionnelle',
@@ -57,13 +52,25 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $methods = [
             'calculer un pourcentage'
         ];
-        $add('propriété de linéarité', $methods, 'exercice');
+        $add('propriété de linéarité', $methods, 'method');
 
         $cours = [
             'la proportionnalité',
         ];
 
-        $add('propriété de linéarité', $cours, 'exercice');
+        $add('propriété de linéarité', $cours, 'course');
+
+        // terminale S option maths
+
+        $exercices = [
+            'Démonter par récurrence somme des N premiers entiers',
+            'somme des carrés',
+            'somme des cubes',
+        ];
+
+        $add('raisonnement par récurrence', $exercices, 'exercice');
+
+        $manager->flush();
 
     }
 

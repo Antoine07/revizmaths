@@ -51,6 +51,13 @@ abstract class Taxonomy
     /**
      * @var int
      *
+     * @ORM\Column(name="nb_course", type="smallint", options={"default"=0}, nullable=true)
+     */
+    private $nbCourse;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="nb_answer", type="smallint", options={"default"=0}, nullable=true)
      */
     private $nbAnswer;

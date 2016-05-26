@@ -68,7 +68,7 @@ abstract class Post
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", inversedBy="user", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
