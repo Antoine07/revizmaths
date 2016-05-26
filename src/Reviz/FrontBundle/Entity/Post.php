@@ -68,7 +68,7 @@ abstract class Post
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", inversedBy="user", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
@@ -180,30 +180,6 @@ abstract class Post
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Post
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->userId;
     }
 
     /**
