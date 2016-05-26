@@ -26,7 +26,7 @@ class StudentAccessTest extends BaseTest
         $add('Category', 'les tables de multiplication', 'Answer', 3);
 
         // student Tony id 2 and prof Antoine123 id 1
-        $this->setUserData('access_student');
+        $this->setUserData('students');
 
         // student
         $student = $this->em
