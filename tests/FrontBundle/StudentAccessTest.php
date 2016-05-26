@@ -189,8 +189,6 @@ class StudentAccessTest extends BaseTest
 
         }
 
-
-
     }
 
 }
