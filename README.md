@@ -1,5 +1,9 @@
 revizmaths
 ==========
+# tests PHPUnit / Travis
+
+[![Build Status](https://travis-ci.org/Antoine07/revizmaths.svg?branch=dev)](https://github.com/Antoine07/revizmaths)
+
 
 # relation Doctrine unidirectionnelle
 
