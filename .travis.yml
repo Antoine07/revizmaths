@@ -9,5 +9,4 @@ before_script:
   - composer install
 
 script:
-  - phpunit --coverage-text
-  - vendor/bin/behat --suite=core
+  - phpunit
