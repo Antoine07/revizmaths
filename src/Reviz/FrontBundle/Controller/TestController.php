@@ -2,8 +2,13 @@
 
 namespace Reviz\FrontBundle\Controller;
 
+use Doctrine\ORM\Mapping\Id;
+use Reviz\FrontBundle\Repository\UserRepository;
+use Reviz\FrontBundle\RevizFrontBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 
 class TestController extends Controller {
 
@@ -13,5 +18,35 @@ class TestController extends Controller {
     public function indexAction() {
         
         return $this->render('RevizFrontBundle:Front:index.html.twig');
+
+        $repository = $this->getDoctrine()
+            ->getRepository('RevizFrontBundle:User');
+
+        $users = $repository->findAll();
+
+        return $this->render('RevizFrontBundle:Front:index.html.twig', ['users' => $users]);
+    }
+
+    /**
+     * @Route("/activate/{id}", name="activate")
+     */
+    public function activateUserAction($id) {
+
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        $user = $userManager->findUserBy(['id' => $id]);
+
+        //$user->setEnabled(true);
+
+        if ($user->isEnabled() !== true) {
+            $user->setEnabled(true);
+        }
+        elseif ($user->isEnabled() == true) {
+            $user->setEnabled(false);
+        }
+
+        $userManager->updateUser($user);
+
+        return $this->redirect('/');
     }
 }

@@ -1,1 +1,29 @@
 {% extends 'RevizFrontBundle::layout.html.twig'%}
+
+{% block content %}
+    <nav>
+        <ul>
+            {% if app.user %}
+                <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                <li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <ul>
+        {% for user in users %}
+            <li>
+                {{ user.username }}
+
+                {% if user.enabled == 0 %}
+                    <span><b><a href="{{ path('activate', { 'id' : user.id }) }}">Activer l'utilisateur</a></b></span>
+                {% endif %}
+
+                {%  if user.enabled == 1 %}
+                    <span><b><a href="{{ path('activate', { 'id' : user.id }) }}">Désactiver l'utilisateur</a></b></span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
