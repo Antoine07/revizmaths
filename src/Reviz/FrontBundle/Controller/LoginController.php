@@ -10,13 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
-class TestController extends Controller {
+class LoginController extends Controller {
 
     /**
-     * @Route("users", name="index")
+     * @Route("/users", name="index")
      */
     public function indexAction() {
-        
+
         $repository = $this->getDoctrine()
             ->getRepository('RevizFrontBundle:User');
 

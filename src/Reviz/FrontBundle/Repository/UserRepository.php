@@ -13,7 +13,6 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 
     public function getRole($roleName)
     {
-
         $query = $this->getEntityManager()
             ->createQuery("
                 SELECT u
