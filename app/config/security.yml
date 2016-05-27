@@ -31,6 +31,7 @@ security:
                 login_path: /
                 default_target_path: /
                 check_path: /account/login_check
+                success_handler: redirect.after.login
                 failure_path: /account/login
                 # if you are using Symfony < 2.8, use the following config instead:
                 # csrf_provider: form.csrf_provider
@@ -43,4 +44,4 @@ security:
         - { path: ^/account/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/account/admin/, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: ROLE_ADMIN }

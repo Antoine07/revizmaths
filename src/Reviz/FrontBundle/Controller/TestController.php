@@ -28,15 +28,13 @@ class TestController extends Controller {
     }
 
     /**
-     * @Route("/activate/{id}", name="activate")
+     * @Route("/users/activate/{id}", name="activate")
      */
     public function activateUserAction($id) {
 
         $userManager = $this->container->get('fos_user.user_manager');
 
         $user = $userManager->findUserBy(['id' => $id]);
-
-        //$user->setEnabled(true);
 
         if ($user->isEnabled() !== true) {
             $user->setEnabled(true);
@@ -48,5 +46,21 @@ class TestController extends Controller {
         $userManager->updateUser($user);
 
         return $this->redirect('/');
+    }
+
+    /**
+     * @Route("/admin/dashboard", name="back_homepage")
+     */
+    public function getBackOfficeAction() {
+        
+        return $this->render('RevizFrontBundle:Front:admin.html.twig');
+    }
+
+    /**
+     * @Route("/student/dashboard", name="student_homepage")
+     */
+    public function getStudentOfficeAction() {
+
+        return $this->render('RevizFrontBundle:Front:student.html.twig');
     }
 }

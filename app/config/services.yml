@@ -15,6 +15,10 @@ services:
         class: Reviz\FrontBundle\Utils\AntiSpam
         arguments: ["@reviz.regex", "c'est foo", "%parameter_name%"]
 
+    redirect.after.login:
+        class: Reviz\UserBundle\Redirection\AfterLoginRedirection
+        arguments: ["@router"]
+
 #    reviz.exception:
 #        class: Reviz\FrontBundle\Utils\Event\RevizException
 #        tags:
