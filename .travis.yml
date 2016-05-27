@@ -6,10 +6,10 @@ env:
   - SYMFONY_VERSION=3.0.**
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - composer selfupdate
   - composer require symfony/symfony:${SYMFONY_VERSION}
 
 script:
-  - phpenv config-rm xdebug.ini
   - phpunit --coverage-text
   - vendor/bin/behat --suite=core
