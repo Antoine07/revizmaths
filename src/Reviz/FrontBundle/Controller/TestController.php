@@ -13,12 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 class TestController extends Controller {
 
     /**
-     * @Route("/", name="index")
+     * @Route("users", name="index")
      */
     public function indexAction() {
         
-        return $this->render('RevizFrontBundle:Front:index.html.twig');
-
         $repository = $this->getDoctrine()
             ->getRepository('RevizFrontBundle:User');
 
@@ -45,7 +43,7 @@ class TestController extends Controller {
 
         $userManager->updateUser($user);
 
-        return $this->redirect('/');
+        return $this->redirect('/users');
     }
 
     /**
