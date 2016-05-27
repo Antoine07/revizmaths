@@ -1,8 +1,16 @@
+<input class="search" type="search" placeholder="Recherche" name="the_search">
 <nav class="main-nav">
     <ul>
-        <li><a href="">Formation</a></li>
-        <li><a href="">F.A.Q</a></li>
-        <li><a href="">A propos</a></li>
-        <li><a href="">Contacts</a></li>
+        <li>
+            <a href="">Formation</a>
+            <ul>
+                {% for level in levels %}
+                    <li class="nav-level"><a href="{{ path('level', {'id' : level.id}) }}">{{ level.name }}{% if not loop.last %}, {% endif %}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li><a href="{{ path('questions') }}">F.A.Q</a></li>
+        <li><a href="{{ path('about') }}">A propos</a></li>
+        <li><a href="{{ path('contacts') }}">Contacts</a></li>
     </ul>
 </nav>
