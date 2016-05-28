@@ -1,5 +1,6 @@
+{% extends 'RevizFrontBundle:Layouts:usersLayout.html.twig' %}
 
-
+{% block content %}
     <nav>
         <ul>
             {% if app.user %}
@@ -25,3 +26,4 @@
             </li>
         {% endfor %}
     </ul>
+{% endblock content %}

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class LoginController extends Controller {
 
     /**
-     * @Route("/users", name="index")
+     * @Route("/users", name="indexUsers")
      */
     public function indexAction() {
 
