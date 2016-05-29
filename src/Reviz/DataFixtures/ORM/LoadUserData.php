@@ -18,6 +18,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $professor->setUsername('AntoineL');
         $professor->setEmail('antoine.lucsko@gmail.com');
         $professor->setPassword('Antoine' );
+        $professor->setEnabled(true);
         $professor->addRole('ROLE_PROFESSOR');
 
         $manager->persist($professor);

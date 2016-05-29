@@ -28,11 +28,17 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
                 ->getRepository('RevizFrontBundle:Taxonomy')
                 ->findByName($title);
 
+            $tags = $manager
+                ->getRepository('RevizFrontBundle:Tag')
+                ->findAll();
+            $max = count($tags);
+
             foreach ($data as $name) {
                 $post = new $entity;
                 $post->setTitle($name);
                 $post->setContent($lorem->getParagraphs(rand(2, 5)));
                 $post->addTaxonomy($category[0]);
+                $post->addTaxonomy($tags[rand(0, $max-1)]);
                 $post->setUser($professor[0]);
 
                 $manager->persist($post);

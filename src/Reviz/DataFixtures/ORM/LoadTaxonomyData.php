@@ -2,6 +2,7 @@
 
 namespace Reviz\DataFixtures\ORM;
 
+use Reviz\FrontBundle\Entity\Tag;
 use Reviz\FrontBundle\Entity\Level;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -139,6 +140,19 @@ class LoadTaxonomyData  extends AbstractFixture implements OrderedFixtureInterfa
             'limites',
         ];
         $add("limites fonctions", $categories,'module');
+
+        // tags
+        $tags=[
+            'maths', 'nombre premier', 'carré parfait', 'nombre ami'
+        ];
+
+        foreach ($tags as $name) {
+            $tag = new Tag();
+            $tag->setName($name);
+            $manager->persist($tag);
+        }
+
+        $manager->flush();
 
     }
 
