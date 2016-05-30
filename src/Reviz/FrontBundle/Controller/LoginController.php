@@ -7,8 +7,6 @@ use Reviz\FrontBundle\Repository\UserRepository;
 use Reviz\FrontBundle\RevizFrontBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 
 class LoginController extends Controller {
 
