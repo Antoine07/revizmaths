@@ -107,4 +107,24 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    public function nbResources($name) {
+
+        $name = strtolower($name);
+
+        if(!in_array($name, ['course', 'method', 'exercice', 'answer', 'module']))
+            throw new \RuntimeException(sprintf('invalid name, %s, count number resources', $name));
+
+        $name = 'nb_' . $name;
+
+        $dql = sprintf('
+        SELECT SUM(t.%s) as nb
+        FROM RevizFrontBundle:Taxonomy t
+        ', $name);
+
+        $query = $this->getEntityManager()
+            ->createQuery($dql);
+
+        return $query->getResult();
+    }
+
 }
