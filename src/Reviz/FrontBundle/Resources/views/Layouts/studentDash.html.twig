@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <link rel="stylesheet" href="style.css" />
+        <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+</head>
+
+<body>
+
+    <!-- Sidebar de naviagtion de l'utilisateur -->
+    <section id="sidebar-student">
+        <div class="sidebar-container--image">
+            <img class="student-image" src="" alt="image de l'utilisateur">
+            <p><a href=""><img src="sidebar-picto--email" alt="picto enveloppe pour email"></a></p>
+        </div>
+        <ul class="sidebar-navigation">
+            <li><a>Dashboard</a></li>
+            <li><a>Agenda</a></li>
+            <li>Modules</li>
+            <li><a>Contacter mon prof</a></li>
+            <li><a>Paramètres</a></li>
+        </ul>
+    </section>
+
+    <!-- Conteneur central pour les contenu de l'utilisateur -->
+    <section id="container-student">
+
+        <header id="main-header">
+            <section id="header-top">
+                <section class="header-top--login-bar">
+                    <h1 class="main-logo">Maths'nifique</h1>
+                    <div>
+                        <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+                        <a href="{{ path('fos_user_registration_register') }}">S'inscrire</a>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                        {% endif %}
+                    </div>
+                </section>
+                <section class="header-top--nav-bar">
+
+                    {% include "RevizFrontBundle:Partials:nav.html.twig" %}
+
+                </section>
+            </section>
+        </header>
+    </section>
+</body>
