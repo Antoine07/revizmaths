@@ -143,7 +143,10 @@ class LoadTaxonomyData  extends AbstractFixture implements OrderedFixtureInterfa
 
         // tags
         $tags=[
-            'maths', 'nombre premier', 'carré parfait', 'nombre ami'
+            'maths',
+            'nombre premier',
+            'carré parfait',
+            'nombre ami'
         ];
 
         foreach ($tags as $name) {

@@ -62,7 +62,7 @@ abstract class Post
     private $publishedAt;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false))
+     * @ORM\Column(name="created_at", type="datetime", nullable=true))
      * @Assert\Type("\DateTime")
      */
     private $createdAt;

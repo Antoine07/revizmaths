@@ -348,4 +348,28 @@ abstract class Taxonomy
     {
         return $this->posts;
     }
+
+    /**
+     * Set nbCourse
+     *
+     * @param integer $nbCourse
+     *
+     * @return Taxonomy
+     */
+    public function setNbCourse($nbCourse)
+    {
+        $this->nbCourse = $nbCourse;
+
+        return $this;
+    }
+
+    /**
+     * Get nbCourse
+     *
+     * @return integer
+     */
+    public function getNbCourse()
+    {
+        return $this->nbCourse;
+    }
 }

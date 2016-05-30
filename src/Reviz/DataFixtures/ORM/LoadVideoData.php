@@ -2,11 +2,11 @@
 
 namespace Reviz\DataFixtures\ORM;
 
+use Reviz\FrontBundle\Entity\Video;
 use Reviz\FrontBundle\Entity\Command;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Reviz\FrontBundle\Entity\Video;
 
 class LoadVideoData extends AbstractFixture implements OrderedFixtureInterface
 {

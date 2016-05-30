@@ -80,6 +80,7 @@ class User extends BaseUser
         parent::__construct();
 
         $this->addRole('ROLE_STUDENT');
+        $this->enabled = false;
 
         $this->profsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
         $this->myProfs = new \Doctrine\Common\Collections\ArrayCollection();

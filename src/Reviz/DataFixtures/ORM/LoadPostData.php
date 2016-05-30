@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Apoutchika\LoremIpsumBundle\Services\LoremIpsum;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Proxies\__CG__\Reviz\FrontBundle\Entity\Answer;
 use Reviz\FrontBundle\Entity\User;
 
 class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
@@ -67,7 +68,6 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $add('propriété de linéarité', $cours, 'course');
 
         // terminale S option maths
-
         $exercices = [
             'Démonter par récurrence somme des N premiers entiers',
             'somme des carrés',
@@ -75,6 +75,14 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         ];
 
         $add('raisonnement par récurrence', $exercices, 'exercice');
+
+        $exercices = [
+            'Suite majorée',
+            'Suite minorée',
+        ];
+
+        $add('limite suite', $exercices, 'exercice');
+
 
         $manager->flush();
 

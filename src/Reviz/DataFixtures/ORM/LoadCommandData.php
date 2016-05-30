@@ -23,17 +23,19 @@ class LoadCommandData extends AbstractFixture implements OrderedFixtureInterface
             ->getRepository('Reviz\FrontBundle\Entity\User')
             ->findByEmail('antoine@gmail.com');
 
-        foreach($categories as $category)
-        {
-            $command = new Command();
+        $serializedPost = [];
+        $serializedVideo = [];
 
+        foreach ($categories as $category) {
+            $command = new Command();
             $command->setUser($user[0]);
             $command->setTaxonomy($category);
             $command->setIsLocked(false);
 
             $posts = $category->getPosts();
 
-            // posts
+            if(count($posts) == 0) continue;
+
             foreach ($posts as $post) {
 
                 $serializedPost[] = $post->getId();
@@ -41,19 +43,22 @@ class LoadCommandData extends AbstractFixture implements OrderedFixtureInterface
                 $videos = $manager->getRepository('RevizFrontBundle:Post')
                     ->getVideos($post->getId());
 
-                foreach($videos as $video)
-                {
+                foreach ($videos as $video) {
                     $serializedVideo[] = $video->getId();
                 }
+
             }
 
             $command->setAccessPosts(json_encode($serializedPost));
             $command->setAccessVideos(json_encode($serializedVideo));
 
             $manager->persist($command);
+            $serializedVideo = [];
+            $serializedPost = [];
 
-            $manager->flush();
         }
+
+        $manager->flush();
 
     }
 
