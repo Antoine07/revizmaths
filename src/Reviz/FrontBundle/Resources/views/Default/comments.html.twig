@@ -1,8 +1,0 @@
-{% if not course.comments.empty %}
-    <p>
-        voici nos commentaires !!!
-        {% for co in course.comments %}
-            {{ co.title }}{% if not loop.last %}, {% endif %}
-        {% endfor %}
-    </p>
-{% endif %}

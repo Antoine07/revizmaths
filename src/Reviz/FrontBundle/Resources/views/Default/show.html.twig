@@ -1,7 +1,0 @@
-{% if courses %}
-    <p>
-        {% for course in courses %}
-            {{ course.title }}{% if not loop.last %}, {% endif %}
-        {% endfor %}
-    </p>
-{% endif %}
