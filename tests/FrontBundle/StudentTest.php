@@ -41,6 +41,7 @@ class StudentTest extends BaseTest
 
         $this->em->flush();
 
+
         $profs = $this->em
             ->getRepository('RevizFrontBundle:User')
             ->getRole('ROLE_PROFESSOR');
@@ -98,6 +99,29 @@ class StudentTest extends BaseTest
         }
 
         $this->assertEquals($nbStudent, 15);
+
+    }
+
+    public function testRoleUserLevel()
+    {
+        $prof = new User;
+        $prof->setUsername('Antoine');
+        $prof->setEmail('antoine.lucsko@gmail.com' );
+        $prof->setPassword('Antoine' );
+        $prof->addRole('ROLE_PROFESSOR');
+        $prof->addRole('ROLE_STUDENT');
+        $prof->addRole('ROLE_ADMIN');
+
+        $this->em->persist($prof);
+
+        $this->em->flush();
+
+        $prof = null;
+        $prof = $this->em
+            ->getRepository('RevizFrontBundle:User')
+            ->findByUsername('Antoine');
+
+        $this->assertEquals('ROLE_ADMIN', $prof[0]->getHighestRole());
 
     }
 }
