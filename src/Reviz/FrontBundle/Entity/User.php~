@@ -58,12 +58,12 @@ class User extends BaseUser
     protected $nbFormule = 0;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="myStudents")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="myProfs")
      */
     protected $myStudents;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="profsWithMe")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="myStudents")
      * @ORM\JoinTable(name="profs",
      *      joinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="prof_id", referencedColumnName="id")}

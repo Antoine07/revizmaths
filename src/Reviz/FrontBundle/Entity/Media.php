@@ -41,7 +41,7 @@ abstract class Media implements MediaType
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Reviz\FrontBundle\Entity\Post", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Reviz\FrontBundle\Entity\Post", mappedBy="medias", cascade={"persist"})
      *
      */
     private $posts;

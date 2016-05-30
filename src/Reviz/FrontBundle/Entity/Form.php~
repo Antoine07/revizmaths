@@ -213,31 +213,7 @@ class Form
     {
         return $this->action;
     }
-
-    /**
-     * Set quiz
-     *
-     * @param \Reviz\FrontBundle\Entity\Quiz $quiz
-     *
-     * @return Form
-     */
-    public function setQuiz(\Reviz\FrontBundle\Entity\Quiz $quiz = null)
-    {
-        $this->quiz = $quiz;
-
-        return $this;
-    }
-
-    /**
-     * Get quiz
-     *
-     * @return \Reviz\FrontBundle\Entity\Quiz
-     */
-    public function getQuiz()
-    {
-        return $this->quiz;
-    }
-
+    
     /**
      * Set post
      *
