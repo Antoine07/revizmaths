@@ -14,8 +14,6 @@ class FrontController extends Controller
         return $this->render('RevizFrontBundle:Partials:nav.html.twig', ['levels' => $levels]);
     }
 
-
-
     /**
      * @Route("/", name="home")
      */
@@ -23,7 +21,6 @@ class FrontController extends Controller
         
         return $this->render('RevizFrontBundle:Front:home.html.twig');
     }
-
 
     /**
      * @Route("/level/{id}", name="level")
@@ -33,7 +30,6 @@ class FrontController extends Controller
         return $this->render('RevizFrontBundle:Front:showlevel.html.twig');
     }
 
-
     /**
      * @Route("/questions", name="questions")
      */
@@ -42,7 +38,6 @@ class FrontController extends Controller
         return $this->render('RevizFrontBundle:Front:faq.html.twig');
     }
 
-
     /**
      * @Route("/about", name="about")
      */
@@ -50,8 +45,7 @@ class FrontController extends Controller
 
         return $this->render('RevizFrontBundle:Front:about.html.twig');
     }
-
-
+    
     /**
      * @Route("/contacts", name="contacts")
      */
