@@ -130,7 +130,7 @@ Dans ce cas il faut modifier la relation inverse à la relation propriétaire
 class Post
 {
    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", cascade={"persist"}, inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", cascade={"persist"}, mappedBy="posts")
      * @ORM\JoinColumn(nullable=false)
     */
     private $category;
@@ -139,7 +139,7 @@ class Post
 class Category {
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", inversedBy="category")
     */
     private $posts;
 
@@ -168,6 +168,8 @@ $category->addPost($post);
 
 ```
 
+- Le mappedBy correspond à l'attribut de l'entité propriétaire (Post) qui pointe vers l'entité inverse (Category) : c'est le private $category de l'entité Application. Il faut le renseigner pour que l'entité inverse soit au courant des caractéristiques de la relation, celles-ci sont définies dans l'annotation de l'entité propriétaire.
+- Il faut également adapter l'entité propriétaire, pour lui dire que maintenant la relation est de type bidirectionnelle et non plus unidirectionnelle. Pour cela, il faut simplement rajouter le paramètre inversedBy dans l'annotation Many-To-One.
 ## Les services
 
 - Un service est une classe PHP, il a pour vocation d'être accessible de partout dans le code.
