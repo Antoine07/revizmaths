@@ -10,11 +10,23 @@ revizmaths
 commandes pour mettre à jour Doctrine et la base de données
 
 ``` bash
+// aide en ligne
+$ php bin/console 
+$ php bin/console help doctrine:generate:entities
+
 // génération des setter et getter
 $ php bin/console doctrine:generate:entities App\AppBundle
 
 // mise à jour de la base de données
 $ php bin/console doctrine:schema:update --force
+
+// command create drop database
+$ bin/console doctrine:database:drop --force
+$ bin/console doctrine:database:create
+# mettre a jour les tables
+$ bin/console doctrine:schema:update --force 
+# load fixtures 
+$ php bin\console doctrine:fixtures:load --fixtures=src/Reviz/DataFixtures
 
 ```
 
@@ -167,6 +179,37 @@ $category->addPost($post);
 // $post->setCategory($category);
 
 ```
+
+## relation Many to Many self-referencing
+
+Exemple avec nos tables users et profs
+
+``` php
+# entity User
+
+/**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="myProfs")
+     */
+    protected $myStudents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="myStudents")
+     * @ORM\JoinTable(name="profs",
+     *      joinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="prof_id", referencedColumnName="id")}
+     *      )
+     */
+
+    protected $myProfs;
+
+    public function __construct()
+    {
+        ...
+
+        $this->profsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->myProfs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+``` 
 
 - Le mappedBy correspond à l'attribut de l'entité propriétaire (Post) qui pointe vers l'entité inverse (Category) : c'est le private $category de l'entité Application. Il faut le renseigner pour que l'entité inverse soit au courant des caractéristiques de la relation, celles-ci sont définies dans l'annotation de l'entité propriétaire.
 - Il faut également adapter l'entité propriétaire, pour lui dire que maintenant la relation est de type bidirectionnelle et non plus unidirectionnelle. Pour cela, il faut simplement rajouter le paramètre inversedBy dans l'annotation Many-To-One.
@@ -580,6 +623,40 @@ nombre~  => trouvera nombres
   }
 
 ```
+
+## EventListener
+
+- découplage, ne dépend pas de celui qui déclenche l'évènement
+
+- un événement ~ à un moment clé de l'exé d'une page
+ex: kernel.request événement exécuté avant l'éxé du contrôleur, attention cet événement est exécuté à chaque page... 
+
+security.interactive_login, événement décléché lors d'une action spécifique (différent du précédent), identification d'un utilisateur
+
+- gestionnaire événement
+
+Un évènement vient d'avoir lieu dans l'app => le gestionnaire prévient tout le monde!
+ex: kernel.request => C'est le kernel qui déclenche l'évènement
+
+- écouteur d'événement listener
+être prévenu si un évènement est déclenché
+
+- un service se font connaître du gestionnaire d'évènement pour écouter tel ou tel évènement => ils deviennent des listener
+
+- déclenchement d'un évènement => le gestionnaire d'évènement éxécute chaque service qui est inscrit pour écouter cet évènement précis.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
