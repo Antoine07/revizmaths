@@ -93,30 +93,6 @@ class User extends BaseUser
      */
     public function getHighestRole()
     {
-
-        $hierarchyRoles = [
-            'ROLE_ADMIN',
-            'ROLE_PROFESSOR',
-            'ROLE_STUDENT',
-            'ROLE_USER'
-        ];
-
-        foreach ($hierarchyRoles as $role)
-        {
-            if (in_array($role, $this->roles))
-                return $role;
-        }
-
-        return false;
-    }
-
-    /**
-     * getHighestRole
-     *
-     * @return bool | role
-     */
-    public function getHighestRole()
-    {
         $hierarchyRoles = [
             'ROLE_ADMIN',
             'ROLE_PROFESSOR',
