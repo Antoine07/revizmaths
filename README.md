@@ -645,7 +645,47 @@ ex: kernel.request => C'est le kernel qui déclenche l'évènement
 
 - déclenchement d'un évènement => le gestionnaire d'évènement éxécute chaque service qui est inscrit pour écouter cet évènement précis.
 
+## Flash bag
 
+- uitliser de manière générale l'objet Session de Symfony
+
+``` php
+// objet de session
+use Symfony\Component\HttpFoundation\Session\Session;
+
+$session = new Session;
+
+// flash message
+$session->getFlashBag()->add(
+    'errors', 'error role form'
+);
+$session->getFlashBag()->add(
+    'notice', 'form notice'
+);
+
+// voir sans effacer le message flash
+dump($session->getFlashBag()->peek('errors'));
+
+// tout voir sans les effacer les messages flash
+dump($session->getFlashBag()->peekAll());
+// méthode all récupère et efface
+// dump($session->getFlashBag()->All());
+
+// s'affiche qu'une fois
+dump($session->getFlashBag()->get('errors'));
+
+// empty
+dump($session->getFlashBag()->get('errors'));
+
+// dans twig
+
+{% for flash in app.session.flashbag.all() %}
+    {{ flash }}
+{% endfor %}
+
+{% app.session.flashbag.get('notice') %}
+
+```
 
 
 
