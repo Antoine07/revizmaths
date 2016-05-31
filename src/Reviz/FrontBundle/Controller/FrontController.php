@@ -18,8 +18,14 @@ class FrontController extends Controller
      * @Route("/", name="home")
      */
     public function indexAction() {
-        
-        return $this->render('RevizFrontBundle:Front:home.html.twig');
+        $repository = $this->getDoctrine()->getRepository('RevizFrontBundle:Taxonomy');
+        $nbResourses = $repository->nbResources();
+
+        $nbResourses = $nbResourses[0];
+
+        return $this->render('RevizFrontBundle:Front:home.html.twig', [
+              'resourses' => $nbResourses
+        ]);
     }
 
     /**
