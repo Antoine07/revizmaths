@@ -13,9 +13,9 @@
     </nav>
     {% for user in users %}
     <form method="post" action={{ path('changerole', { 'id' : user.id }) }}>
-        <p>
+        <ul>
             <li>
-                {{ user.username }}
+               <h1>{{ user.username }}{% if user.enabled == 1 %} (Activé) {% else %} (Désactivé) {% endif %}</h1>
 
                 {% if user.enabled == 0 %}
                     <span><b><a href="{{ path('activate', { 'id' : user.id }) }}">Activer l'utilisateur</a></b></span>
@@ -25,16 +25,26 @@
                     <span><b><a href="{{ path('activate', { 'id' : user.id }) }}">Désactiver l'utilisateur</a></b></span>
                 {% endif %}
 
-                    {% for userrole in user.roles %}
-                        <br><span>{{ userrole }}</span><br>
-                    {% endfor %}
+                <h3>Rôles de l'utilisateur:</h3>
+                {% for userrole in user.roles %}
+                    <span>{{ userrole }}, </span>
+                {% endfor %}
 
+                <h3>Ajouter un rôle</h3>
                 <select name="role">
                     {% for key, role in roles %}
                         <option value="{{ key }}">{{ role }}</option>
                     {% endfor %}
                 </select>
                 <input type="submit" name="submitRole" value="Valider">
+
+                <h3>Supprimer un rôle</h3>
+                <ul>
+                    {% for userrole in user.roles %}
+                        <li><a href="{{ path('removerole', { 'id' : user.id, 'role' : userrole }) }}">{{ userrole }} (X)</a></li>
+                    {% endfor %}
+                </ul>
+
             </li>
         </ul>
     </form>

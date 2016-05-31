@@ -8,8 +8,6 @@ use Reviz\FrontBundle\RevizFrontBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Validator\Constraints\Choice;
 
 class LoginController extends Controller {
 
@@ -24,10 +22,10 @@ class LoginController extends Controller {
         $users = $repository->findAll();
         
         $arrayRoles = array(
-            'ROLE_ADMIN' => 'Administrateur',
+            'ROLE_ADMIN'     => 'Administrateur',
             'ROLE_PROFESSOR' => 'Professeur',
-            'ROLE_STUDENT' => 'Etudiant',
-            'ROLE_USER' => 'User'
+            'ROLE_STUDENT'   => 'Etudiant',
+            'ROLE_USER'      => 'User'
         );
 
         return $this->render('RevizFrontBundle:Front:users.html.twig', ['users' => $users, 'roles' => $arrayRoles]);
@@ -61,22 +59,33 @@ class LoginController extends Controller {
     public function changeUserRoleAction($id) {
 
         $userManager = $this->container->get('fos_user.user_manager');
-
         $user = $userManager->findUserBy(['id' => $id]);
 
         $selectOption = $_POST['role'];
-
-        $selectOptionArray = array(
-            $selectOption,
-        );
-
-        //var_dump($selectOptionArray); die;
 
         $user->addRole($selectOption);
 
         $userManager->updateUser($user);
 
         return $this->redirect('/users');
+    }
+
+    /**
+     * @Route("/users/removerole/{id}/{role}", name="removerole")
+     */
+    public function removeUserRole($id, $role) {
+
+        $userManager = $this->container->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(['id' => $id]);
+
+        $roleToRemove = $role;
+
+        $user->removeRole($roleToRemove);
+
+        $userManager->updateUser($user);
+
+        return $this->redirect('/users');
+
     }
 
     /**
