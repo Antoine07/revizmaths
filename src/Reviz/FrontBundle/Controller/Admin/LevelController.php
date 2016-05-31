@@ -1,6 +1,6 @@
 <?php
 
-namespace Reviz\FrontBundle\Controller;
+namespace Reviz\FrontBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
