@@ -8,11 +8,15 @@ use Reviz\FrontBundle\RevizFrontBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 class LoginController extends Controller {
 
     /**
-     * @Route("/users", name="indexUsers")
+     * @Route("/admin/users", name="indexUsers")
      */
     public function indexAction() {
 
@@ -32,7 +36,7 @@ class LoginController extends Controller {
     }
 
     /**
-     * @Route("/users/activate/{id}", name="activate")
+     * @Route("/admin/users/activate/{id}", name="activate")
      */
     public function activateUserAction($id) {
 
@@ -49,29 +53,54 @@ class LoginController extends Controller {
 
         $userManager->updateUser($user);
 
-        return $this->redirect('/users');
+        return $this->redirect('/admin/users');
     }
 
     /**
-     * @Route("/users/changerole/{id}", name="changerole")
+     * @Route("/admin/users/changerole/{id}", name="changerole")
      * @Method({"POST", "GET"})
      */
-    public function changeUserRoleAction($id) {
-
+    public function changeUserRoleAction($id, Request $request) {
+        
+        $session = new Session();
+        
         $userManager = $this->container->get('fos_user.user_manager');
         $user = $userManager->findUserBy(['id' => $id]);
 
-        $selectOption = $_POST['role'];
+        $selectOption = $request->request->all();
 
-        $user->addRole($selectOption);
+        // todo ajout token
+
+        /*if ($this->get('security.csrf.token_manager')->isTokenValid(new CsrfToken('_token_role', $selectOption['_csrf_token']))) {
+
+            throw new AccessDeniedException('Bad Token');
+        }*/
+
+        if (!array_key_exists($selectOption['role'], [
+            'ROLE_ADMIN'     => 'Administrateur',
+            'ROLE_PROFESSOR' => 'Professeur',
+            'ROLE_STUDENT'   => 'Etudiant',
+            'ROLE_USER'      => 'User'
+            ]
+        )) {
+            $session->getFlashBag()->add('error_role', 'wrong role given to request');
+            return $this->redirect('/admin/users');
+        }
+
+        $user->addRole($selectOption['role']);
 
         $userManager->updateUser($user);
 
-        return $this->redirect('/users');
+        $session->getFlashBag()->add(
+            'notice',
+            'coucou coucou coucou !'
+        );
+
+        return $this->redirect('/admin/users');
     }
 
     /**
-     * @Route("/users/removerole/{id}/{role}", name="removerole")
+     * @Route("/admin/users/removerole/{id}/{role}", name="removerole")
      */
     public function removeUserRole($id, $role) {
 
@@ -84,7 +113,7 @@ class LoginController extends Controller {
 
         $userManager->updateUser($user);
 
-        return $this->redirect('/users');
+        return $this->redirect('/admin/users');
 
     }
 

@@ -13,6 +13,7 @@
     </nav>
     {% for user in users %}
     <form method="post" action={{ path('changerole', { 'id' : user.id }) }}>
+        <input type="hidden" value="{{ csrf_token("_token_role") }}" name="_csrf_token">
         <ul>
             <li>
                <h1>{{ user.username }}{% if user.enabled == 1 %} (Activé) {% else %} (Désactivé) {% endif %}</h1>
@@ -44,6 +45,19 @@
                         <li><a href="{{ path('removerole', { 'id' : user.id, 'role' : userrole }) }}">{{ userrole }} (X)</a></li>
                     {% endfor %}
                 </ul>
+
+                <div class="users-flashmessages">
+                    {% for flash_message in app.session.flashBag.get('notice') %}
+                        <div class="flash-notice">
+                            {{ flash_message }}
+                        </div>
+                    {% endfor %}
+                    {% for flash_message in app.session.flashBag.get('error_role') %}
+                        <div class="flash-notice">
+                            {{ flash_message }}
+                        </div>
+                    {% endfor %}
+                </div>
 
             </li>
         </ul>
