@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Reviz\FrontBundle\Entity\Level;
 use Reviz\FrontBundle\Form\LevelType;
 use Symfony\Component\HttpFoundation\Session\Session;
-
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Level controller.
@@ -23,7 +23,6 @@ class LevelController extends Controller
     public function __construct()
     {
         $this->session = new Session();
-    }
     /**
      * Lists all Level entities.
      *
