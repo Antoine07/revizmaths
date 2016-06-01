@@ -4,45 +4,55 @@ namespace Reviz\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Apoutchika\LoremIpsumBundle\Services\LoremIpsum;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Reviz\FrontBundle\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+
+    private $container;
+
+    public function setContainer(ContainerInterface $container=null )
+    {
+        $this->container = $container;
+    }
+
     public function load(ObjectManager $manager)
     {
 
-        $professor = new User;
-        $professor->setUsername('AntoineL');
-        $professor->setEmail('antoine.lucsko@gmail.com');
-        $professor->setPassword('Antoine' );
-        $professor->setEnabled(true);
-        $professor->addRole('ROLE_PROFESSOR');
+        $userManager = $this->container->get('fos_user.user_manager');
 
-        $manager->persist($professor);
+        $userAdmin = $userManager->createUser();
+
+        $userAdmin->setUsername('AntoineL');
+        $userAdmin->setEmail('antoine@example.com');
+        $userAdmin->setPlainPassword('Antoine');
+        $userAdmin->setEnabled(true);
+        $userAdmin->setRoles(['ROLE_ADMIN']);
+
+        $userManager->updateUser($userAdmin, true);
 
         // students
-        $student = new User;
+        $student = $userManager->createUser();
+
         $student->setUsername('AntoineM');
-        $student->setEmail('antoine@gmail.com');
-        $student->setPassword('AntoineM' );
-        $student->addRole('ROLE_STUDENT');
-        $student->addMyProf($professor);
+        $student->setEmail('antoinem@example.com');
+        $student->setPlainPassword('AntoineM');
+        $student->setEnabled(true);
+        $student->setRoles(['ROLE_STUDENT']);
 
-        $manager->persist($student);
+        $userManager->updateUser($student, true);
 
-        $student2 = new User;
+        $student2 = $userManager->createUser();
+
         $student2->setUsername('Simon');
-        $student2->setEmail('simon@gmail.com');
-        $student2->setPassword('Simon' );
-        $student2->addRole('ROLE_STUDENT');
-        $student2->addMyProf($professor);
+        $student2->setEmail('simon@example.com');
+        $student2->setPlainPassword('Simon');
+        $student2->setEnabled(true);
+        $student2->setRoles(['ROLE_STUDENT']);
 
-        $manager->persist($student2);
-
-        $manager->flush();
+        $userManager->updateUser($student2, true);
 
     }
 

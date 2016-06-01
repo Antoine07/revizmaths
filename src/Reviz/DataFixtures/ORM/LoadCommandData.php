@@ -21,7 +21,7 @@ class LoadCommandData extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $manager
             ->getRepository('Reviz\FrontBundle\Entity\User')
-            ->findByEmail('antoine@gmail.com');
+            ->findByUsername('AntoineM');
 
         $serializedPost = [];
         $serializedVideo = [];
