@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 class CourseType extends AbstractType
 {
     /**
@@ -27,23 +29,30 @@ class CourseType extends AbstractType
                     'Non publié' => 'unpublished'
                 )
             ))
-            /*->add('taxonomies', EntityType::class, array(
-                'label' => 'Modules',
-                'class' => 'Reviz\\FrontBundle\\Entity\\Post',
+            ->add('taxonomies', EntityType::class, array(
+                'label' => 'Taxonomies',
+                'class' => 'Reviz\\FrontBundle\\Entity\\Taxonomy',
                 'query_builder' => function (EntityRepository $repo) {
-                    $qb = $repo->createQueryBuilder('m');
-                    $qb->where('m.term=:term');
-                    $qb->setParameter('term', 'module');
+                    $qb = $repo->createQueryBuilder('t');
+                    //$qb = $repo->findAll();
+                    //dump($qb); die;
                     return $qb;
-                }
+                },
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
+            ))/*   ->add('taxonomies',  EntityType::class, array(
+                'class' => 'Reviz\FrontBundle\Entity\Level',
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
+            ))
+            ->add('taxonomies',  EntityType::class, array(
+                'class' => 'Reviz\FrontBundle\Entity\Module',
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
             ))*/
-
-            ->add('course', EntityType::class, array(
-                    'class' => 'RevizFrontBundle:Module',
-                    'choice_label' => 'name',
-                    'multiple' => false,
-                )
-            )
         ;
     }
 

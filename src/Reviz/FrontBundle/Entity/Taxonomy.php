@@ -372,4 +372,10 @@ abstract class Taxonomy
     {
         return $this->nbCourse;
     }
+
+/*
+    public function __toString() {
+
+        return $this->name;
+    }*/
 }

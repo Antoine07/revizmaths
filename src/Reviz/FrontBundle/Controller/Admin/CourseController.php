@@ -91,6 +91,7 @@ class CourseController extends Controller
      */
     public function editAction(Request $request, Course $course)
     {
+
         $deleteForm = $this->createDeleteForm($course);
         $editForm = $this->createForm('Reviz\FrontBundle\Form\CourseType', $course);
         $editForm->handleRequest($request);
