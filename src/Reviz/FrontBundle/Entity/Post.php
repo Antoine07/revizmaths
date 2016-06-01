@@ -41,7 +41,7 @@ abstract class Post
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=100)
-     * @Assert\Length(min=5)
+     * @Assert\Length(max=2)
      * @Assert\NotBlank()
      */
     private $title;
@@ -50,6 +50,7 @@ abstract class Post
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     *
      */
     private $content;
 
@@ -424,5 +425,10 @@ abstract class Post
     public function getMedias()
     {
         return $this->medias;
+    }
+
+    public function __toString() {
+
+        return $this->title;
     }
 }

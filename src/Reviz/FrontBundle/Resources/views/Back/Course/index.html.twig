@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Course list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for course in courses %}
+            <tr>
+                <td><a href="{{ path('admin_course_show', { 'id': course.id }) }}">{{ course.id }}</a></td>
+                <td><a href="{{ path('admin_course_edit', { 'id': course.id }) }}">{{ course.title }}</a></td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_course_show', { 'id': course.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_course_edit', { 'id': course.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_course_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

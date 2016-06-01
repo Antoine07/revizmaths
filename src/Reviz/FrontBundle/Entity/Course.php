@@ -12,5 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Course extends Post
 {
+    private $course;
 
+    public function getCourse() {
+
+        return $this->course;
+    }
 }

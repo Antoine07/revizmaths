@@ -12,5 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Course extends Post
 {
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="history", type="text")
+     *
+     */
+    private $history;
+    
 }
