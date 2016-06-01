@@ -11,6 +11,8 @@ use Reviz\FrontBundle\Form\LevelType;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 /**
  * Level controller.
  *
@@ -19,7 +21,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class LevelController extends Controller
 {
     private $session;
-
+    
     public function __construct()
     {
         $this->session = new Session();
