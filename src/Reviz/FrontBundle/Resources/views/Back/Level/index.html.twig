@@ -7,17 +7,13 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Reflevel</th>
-                <th>Nbmodule</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for level in levels %}
             <tr>
                 <td><a href="{{ path('admin_level_show', { 'id': level.id }) }}">{{ level.id }}</a></td>
-                <td>{{ level.refLevel }}</td>
-                <td>{{ level.nbModule }}</td>
+                <td><a href="{{ path('admin_level_edit', { 'id': level.id }) }}">{{ level.name }}</a></td>
                 <td>
                     <ul>
                         <li>

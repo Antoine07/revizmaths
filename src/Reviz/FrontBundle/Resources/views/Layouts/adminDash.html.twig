@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <link rel="stylesheet" href="style.css" />
+        <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+</head>
+
+<body>
+
+<!-- Sidebar de naviagtion de l'admin -->
+<section id="sidebar-admin">
+
+    {% include "RevizFrontBundle:Partials:adminSidebar.html.twig" %}
+
+</section>
+
+<!-- Conteneur central pour les contenu de l'admin -->
+<section id="container-admin">
+
+    <header id="main-header">
+        <section id="header-top">
+            <section class="header-top--login-bar">
+                <h1 class="main-logo">revizmaths</h1>
+                <div>
+                    {% if app.user %}
+                        <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                        <li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
+                    {% endif %}
+                </div>
+            </section>
+            <section class="header-top--nav-bar">
+                {{ render(controller("RevizFrontBundle:Front:menu")) }}
+            </section>
+        </section>
+    </header>
+</section>
+</body>

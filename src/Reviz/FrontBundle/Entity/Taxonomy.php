@@ -3,6 +3,7 @@
 namespace Reviz\FrontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Taxonomy
@@ -37,7 +38,7 @@ abstract class Taxonomy
      * @var string
      *
      * @ORM\Column(type="string", length=100, nullable=false)
-     *
+     * @Assert\Length(max=10)
      */
     private $name;
 

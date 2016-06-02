@@ -16,14 +16,9 @@ class LevelType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
-            ->add('taxonomies',  EntityType::class, array(
-                'class' => 'Reviz\FrontBundle\Entity\Level',
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true
-            ));
+            ->add('name')
+        ;
     }
 
     /**

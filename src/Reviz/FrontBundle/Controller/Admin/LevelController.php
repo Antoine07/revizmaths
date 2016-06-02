@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Reviz\FrontBundle\Entity\Level;
 use Reviz\FrontBundle\Form\LevelType;
+use Symfony\Component\HttpFoundation\Session\Session;
 
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Level controller.
@@ -20,9 +20,9 @@ class LevelController extends Controller
 {
     private $session;
 
-    public function __construct(SessionInterface $session)
+    public function __construct()
     {
-        $this->session = $session;
+        $this->session = new Session();
     }
     /**
      * Lists all Level entities.
@@ -58,7 +58,10 @@ class LevelController extends Controller
             $em->persist($level);
             $em->flush();
 
-            return $this->redirectToRoute('admin_level_show', array('id' => $level->getId()));
+            return $this->redirectToRoute('admin_level_show', array(
+                  'id' => $level->getId(),
+                  'name' => $level->getName()
+            ));
         }
 
         return $this->render('RevizFrontBundle:Back/Level:new.html.twig', array(
