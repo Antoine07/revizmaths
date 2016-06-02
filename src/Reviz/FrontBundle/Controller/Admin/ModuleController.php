@@ -51,7 +51,6 @@ class ModuleController extends Controller
     {
         $module = new Module();
         $form = $this->createForm('Reviz\FrontBundle\Form\ModuleType', $module);
-<<<<<<< 29ccd32116e0f660c19a8c521cc23909af8318c1
 
         $em = $this->getDoctrine()->getManager();
         $levels = $em->getRepository('RevizFrontBundle:Level')->findAll();
@@ -80,12 +79,6 @@ class ModuleController extends Controller
                 $module->setParentId($level['level']);
             }
 
-=======
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
->>>>>>> Debut CRUD method
             $em->persist($module);
             $em->flush();
 
@@ -94,10 +87,7 @@ class ModuleController extends Controller
 
         return $this->render('RevizFrontBundle:Back/Module:new.html.twig', array(
             'module' => $module,
-<<<<<<< 29ccd32116e0f660c19a8c521cc23909af8318c1
             'level_form' => $levelsForm->createView(),
-=======
->>>>>>> Debut CRUD method
             'form' => $form->createView(),
         ));
     }
