@@ -11,7 +11,6 @@ use Reviz\FrontBundle\Form\LevelType;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
-
 /**
  * Level controller.
  *
