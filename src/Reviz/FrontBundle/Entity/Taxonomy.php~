@@ -298,7 +298,7 @@ abstract class Taxonomy
         return $this->name;
     }
 
-   /* public function __get($name)
+    public function __get($name)
     {
         if ($decrease = substr($name, 8 )) {
             $decrease = 'nb' . ucfirst($decrease);
@@ -312,7 +312,7 @@ abstract class Taxonomy
         }
 
         throw new \Exception(sprintf('system decrease taxonomy, this resource do not exists, %s', $decrease));
-    }*/
+    }
 
 
     /**
@@ -372,4 +372,10 @@ abstract class Taxonomy
     {
         return $this->nbCourse;
     }
+
+/*
+    public function __toString() {
+
+        return $this->name;
+    }*/
 }

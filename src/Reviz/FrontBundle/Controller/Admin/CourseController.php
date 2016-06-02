@@ -2,13 +2,11 @@
 
 namespace Reviz\FrontBundle\Controller\Admin;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Reviz\FrontBundle\Entity\Course;
-use Reviz\FrontBundle\Form\CourseType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Course controller.
@@ -18,7 +16,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class CourseController extends Controller
 {
     private $session;
-    
+
     public function __construct()
     {
         $this->session = new Session();
@@ -94,14 +92,66 @@ class CourseController extends Controller
 
         $deleteForm = $this->createDeleteForm($course);
         $editForm = $this->createForm('Reviz\FrontBundle\Form\CourseType', $course);
+
+        $em = $this->getDoctrine()->getManager();
+        $levels = $em->getRepository('RevizFrontBundle:Level')->findAll();
+        $modules = $em->getRepository('RevizFrontBundle:Module')->findAll();
+
+        $levelsFields = [];
+        foreach ($levels as $level) $levelsFields[$level->getName()] = $level->getId();
+
+        $modulesFields = [];
+        foreach ($modules as $module) $modulesFields[$module->getName()] = $module->getId();
+
+        $levelsForm = $this->createFormBuilder($levels)
+            ->add('level', ChoiceType::class, array(
+                'choices' => $levelsFields
+            ))
+            ->getForm();
+
+        $modulesForm = $this->createFormBuilder($modules)
+            ->add('module', ChoiceType::class, array(
+                'choices' => $modulesFields
+            ))
+            ->getForm();
+
         $editForm->handleRequest($request);
+        $levelsForm->handleRequest($request);
+        $modulesForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-            //$course = $editForm->getData();
-            //$course->setContent('foofoo');
+            $course = $editForm->getData();
+            $level = $levelsForm->getData();
+            $module = $modulesForm->getData();
 
-            $em = $this->getDoctrine()->getManager();
+            if (isset($level['level']) && isset($module['module'])) {
+
+                // reset relation table post_taxonomy because must be unique
+                foreach ($levels as $reset) $course->removeTaxonomy($reset);
+
+                $levelEntity = $em->getRepository('RevizFrontBundle:Level')->findById((int)$level['level']);
+                $course->addTaxonomy($levelEntity[0]);
+
+                $moduleEntity = $em->getRepository('RevizFrontBundle:Module')->findById((int)$module['module']);
+
+                // check if level is parent of module nothing is wrong back with session flash message
+                if ($level['level'] != $moduleEntity[0]->getParentId()) {
+
+                    $this->session->getFlashBag()->add('warning', sprintf(
+                        'this relation must be correct with parent id, check module %s if parent with the level %s',
+                        $moduleEntity[0]->getName(),
+                        $levelEntity[0]->getName()
+                    ));
+
+                    return $this->redirectToRoute('admin_course_edit', array('id' => $course->getId()));
+                }
+
+                $course->removeTaxonomy($moduleEntity[0]);
+                $course->addTaxonomy($moduleEntity[0]);
+
+            }
+
             $em->persist($course);
             $em->flush();
 
@@ -111,6 +161,9 @@ class CourseController extends Controller
         return $this->render('RevizFrontBundle:Back:Course/edit.html.twig', array(
             'course' => $course,
             'edit_form' => $editForm->createView(),
+            'levels' => $levels,
+            'level_form' => $levelsForm->createView(),
+            'module_form' => $modulesForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -147,7 +200,6 @@ class CourseController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_course_delete', array('id' => $course->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

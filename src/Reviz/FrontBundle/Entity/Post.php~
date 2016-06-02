@@ -426,4 +426,9 @@ abstract class Post
     {
         return $this->medias;
     }
+
+    public function __toString() {
+
+        return $this->title;
+    }
 }
