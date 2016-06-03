@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class LevelController extends Controller
 {
     private $session;
-    
+
     public function __construct()
     {
         $this->session = new Session();
