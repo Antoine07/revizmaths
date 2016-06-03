@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Category creation</h1>
+
+    {% for label, flashes in app.session.flashbag.all %}
+        {% for flash in flashes %}
+            <div class="alert alert-{{ label }}">
+                {{ flash }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {{ form_start(new_form) }}
+    {{ form_widget(new_form) }}
+    {{ form_widget(level_form) }}
+    {{ form_widget(module_form) }}
+    <input type="submit" value="Edit" />
+    {{ form_end(new_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_category_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
