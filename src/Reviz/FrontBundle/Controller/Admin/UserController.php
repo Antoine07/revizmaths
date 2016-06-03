@@ -2,12 +2,12 @@
 
 namespace Reviz\FrontBundle\Controller\Admin;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Reviz\FrontBundle\Entity\User;
-use Reviz\FrontBundle\Form\UserType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * User controller.
@@ -16,6 +16,14 @@ use Reviz\FrontBundle\Form\UserType;
  */
 class UserController extends Controller
 {
+
+    private $session;
+
+    public function __construct()
+    {
+        $this->session = new Session();
+    }
+
     /**
      * Lists all User entities.
      *
@@ -29,7 +37,7 @@ class UserController extends Controller
         $users = $em->getRepository('RevizFrontBundle:User')->findAll();
 
         return $this->render('RevizFrontBundle:Back/User:index.html.twig', [
-            'users' => $users,]
+                'users' => $users,]
         );
     }
 
@@ -47,8 +55,15 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $user = $form->getData();
+            $user->setPlainPassword($user->getPassword());
+
             $em->persist($user);
             $em->flush();
+
+            $this->session->getFlashBag()->add('success', sprintf(
+                'success, they are a new user: %s into database ', $user->getUsername()
+            ));
 
             return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
         }
@@ -84,26 +99,22 @@ class UserController extends Controller
     public function editAction(Request $request, User $user)
     {
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('Reviz\FrontBundle\Form\UserType', $user);
+        $editForm = $this->createForm('Reviz\FrontBundle\Form\UserType', $user, ['requiredPassword' => false]);
+
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-            $validator = $this->get('validator');
-
             $user = $editForm->getData();
-
-
-            // On déclenche la validation sur notre object
-            $listErrors = $validator->validate($user);
-
-            dump($listErrors); die;
-
-            //$user->setUsername('Simon');
+            $user->setPlainPassword($user->getPassword());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            $this->session->getFlashBag()->add('success', sprintf(
+                'success, updated user: %s into database ', $user->getUsername()
+            ));
 
             return $this->redirectToRoute('admin_user_edit', ['id' => $user->getId()]);
         }
@@ -147,7 +158,6 @@ class UserController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_user_delete', ['id' => $user->getId()]))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

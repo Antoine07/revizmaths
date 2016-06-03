@@ -20,12 +20,31 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
                 WHERE u.roles LIKE :roleName
             ");
 
-        $query->setParameter('roleName', '%'.$roleName.'%');
+        $query->setParameter('roleName', '%' . $roleName . '%');
 
-       // var_dump($query->getSql());
+        // var_dump($query->getSql());
 
         return $query->getResult();
 
+    }
+
+    /**
+     * getProfs
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getProfs($userId = null)
+    {
+        if (is_null($userId))
+            return $this
+                ->createQueryBuilder('u')
+                ->join('u.myProfs', 'p');
+
+        return $this
+            ->createQueryBuilder('u')
+            ->join('u.myProfs', 'p')
+            ->where('u.id != :userId')
+            ->setParameter('userId', $userId);
     }
 
 }

@@ -98,6 +98,7 @@ class CourseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $levels = $em->getRepository('RevizFrontBundle:Level')->findAll();
         $modules = $em->getRepository('RevizFrontBundle:Module')->findAll();
+        $categories = $em->getRepository('RevizFrontBundle:Category')->findAll();
 
         $levelsFields = [];
         foreach ($levels as $level) $levelsFields[$level->getName()] = $level->getId();
@@ -105,32 +106,43 @@ class CourseController extends Controller
         $modulesFields = [];
         foreach ($modules as $module) $modulesFields[$module->getName()] = $module->getId();
 
+        $categoriesFields = [];
+        foreach ($categories as $category) $categoriesFields[$category->getName()] = $category->getId();
+
         $levelsForm = $this->createFormBuilder($levels)
             ->add('level', ChoiceType::class, array(
-                'choices' => $levelsFields
+                'choices' => $levelsFields,
             ))
             ->getForm();
 
         $modulesForm = $this->createFormBuilder($modules)
             ->add('module', ChoiceType::class, array(
-                'choices' => $modulesFields
+                'choices' => $modulesFields,
+            ))
+            ->getForm();
+
+        $categoriesForm = $this->createFormBuilder($categories)
+            ->add('category', ChoiceType::class, array(
+                'choices' => $categoriesFields,
             ))
             ->getForm();
 
         $editForm->handleRequest($request);
         $levelsForm->handleRequest($request);
         $modulesForm->handleRequest($request);
+        $categoriesForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
             $course = $editForm->getData();
             $level = $levelsForm->getData();
             $module = $modulesForm->getData();
+            $category = $categoriesForm->getData();
 
-            if (isset($level['level']) && isset($module['module'])) {
+            if (isset($level['level']) && isset($module['module']) && isset($category['category'])) {
 
-                // reset relation table post_taxonomy because must be unique
-                foreach ($levels as $reset) $course->removeTaxonomy($reset);
+                // reset relation table post_taxonomy because must be unique and the relation is many to many
+                foreach ($levels as $resetLevel) $course->removeTaxonomy($resetLevel);
 
                 $levelEntity = $em->getRepository('RevizFrontBundle:Level')->findById((int)$level['level']);
                 $course->addTaxonomy($levelEntity[0]);
@@ -149,15 +161,33 @@ class CourseController extends Controller
                     return $this->redirectToRoute('admin_course_edit', array('id' => $course->getId()));
                 }
 
-                $course->removeTaxonomy($moduleEntity[0]);
+                $categoryEntity = $em->getRepository('RevizFrontBundle:Category')->findById((int)$category['category']);
+                // check if category is in its own category
+                if ($module['module'] != $categoryEntity[0]->getParentId()) {
+
+                    $this->session->getFlashBag()->add('warning', sprintf(
+                        'this relation must be correct with parent id, check category %s if parent with the module %s',
+                        $categoryEntity[0]->getName(),
+                        $moduleEntity[0]->getName()
+                    ));
+
+                    return $this->redirectToRoute('admin_course_edit', array('id' => $course->getId()));
+                }
+
+                // module
+                foreach ($modules as $resetModule) $course->removeTaxonomy($resetModule);
                 $course->addTaxonomy($moduleEntity[0]);
+
+                // category
+                foreach ($categories as $resetCategory) $course->removeTaxonomy($resetCategory);
+                $course->addTaxonomy($categoryEntity[0]);
 
             }
 
             $em->persist($course);
             $em->flush();
 
-            return $this->redirectToRoute('admin_course_edit', array('id' => $course->getId()));
+            return $this->redirectToRoute('admin_course_edit', ['id' => $course->getId()]);
         }
 
         return $this->render('RevizFrontBundle:Back:Course/edit.html.twig', array(
@@ -166,6 +196,7 @@ class CourseController extends Controller
             'levels' => $levels,
             'level_form' => $levelsForm->createView(),
             'module_form' => $modulesForm->createView(),
+            'category_form' => $categoriesForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

@@ -23,3 +23,9 @@ services:
 #        class: Reviz\FrontBundle\Utils\Event\RevizException
 #        tags:
 #            - { name: kernel.event_listener, event: kernel.exception }
+
+    reviz.twig_extension:
+        class: Reviz\FrontBundle\Twig\FrontExtension
+        public: false
+        tags:
+            - { name: twig.extension }

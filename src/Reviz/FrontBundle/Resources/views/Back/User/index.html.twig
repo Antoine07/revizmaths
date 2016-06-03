@@ -7,21 +7,29 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Name</th>
                 <th>Address</th>
                 <th>Phone</th>
-                <th>Nbmodule</th>
-                <th>Nbformule</th>
-                <th>Actions</th>
+                <th>Professors</th>
+                <th>status</th>
+                <th>action</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
                 <td><a href="{{ path('admin_user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+                <td>{{ user.username }}</td>
                 <td>{{ user.address }}</td>
-                <td>{{ user.phone }}</td>
-                <td>{{ user.nbModule }}</td>
-                <td>{{ user.nbFormule }}</td>
+                <td>{% if user.phone %}{{ user.phone }} {% endif %}</td>
+                <td>
+                    {% for professor in user.myProfs %}
+                        {{ professor }}
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ user.getHighestRole()|human_role }}
+                </td>
                 <td>
                     <ul>
                         <li>
