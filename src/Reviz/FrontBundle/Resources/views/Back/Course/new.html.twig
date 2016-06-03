@@ -2,11 +2,20 @@
 
 {% block body %}
     <h1>Course creation</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+    {% for label, flashes in app.session.flashbag.all %}
+        {% for flash in flashes %}
+            <div class="alert alert-{{ label }}">
+                {{ flash }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {{ form_start(new_form) }}
+    {{ form_widget(new_form) }}
+    {{ form_widget(level_form) }}
+    {{ form_widget(module_form) }}
+    {{ form_widget(category_form) }}
+    <input type="submit" value="Create" />
+    {{ form_end(new_form) }}
 
     <ul>
         <li>
