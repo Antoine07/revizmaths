@@ -10,7 +10,7 @@ before_script:
   - phpenv config-rm xdebug.ini
   - composer selfupdate
   - composer install
-   - mysql -e 'create database db_revizmathstests;'
+  - mysql -e 'create database db_revizmathstests;'
 
 script:
   - phpunit --configuration phpunit.xml
