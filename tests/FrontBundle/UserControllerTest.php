@@ -69,7 +69,7 @@ class UserControllerTest extends BaseTest
         $this->client->submit($form);
         $crawler = $this->client->followRedirect();
 
-        $this->assertGreaterThan(0, $crawler->filter('h1:contains("Coucou ADMIN")')->count(), 'Missing element h1:contains("Coucou ADMIN")');
+        $this->assertGreaterThan(0, $crawler->filter('a:contains("Tableau de bord")')->count(), 'Missing element a:contains("Tableau de bord")');
 
     }
 
