@@ -22,7 +22,7 @@ class Command
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", inversedBy="commands", cascade={"persist"})
      */
     private $user;
 
@@ -32,12 +32,12 @@ class Command
     private $taxonomy;
 
     /**
-     * @ORM\Column(name="access_posts", type="string", nullable=true))
+     * @ORM\Column(name="access_posts", type="text", nullable=true))
      */
     private $accessPosts;
 
     /**
-     * @ORM\Column(name="access_videos", type="string", nullable=true))
+     * @ORM\Column(name="access_videos", type="text", nullable=true))
      */
     private $accessVideos;
 

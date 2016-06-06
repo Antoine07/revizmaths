@@ -41,7 +41,7 @@ abstract class Post
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=100)
-     * @Assert\Length(max=2)
+     * @Assert\Length(min=2)
      * @Assert\NotBlank()
      */
     private $title;

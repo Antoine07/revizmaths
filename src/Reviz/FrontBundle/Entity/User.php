@@ -76,6 +76,21 @@ class User extends BaseUser
     protected $myProfs;
 
     /**
+     * Encrypted password. Must be persisted.
+     *
+     * @var string
+     *
+     * @Assert\Length(min=5)
+     * @Assert\Regex("/^([a-zA-Z])*[0-9]{2}([a-zA-Z])*$/")
+     */
+    protected $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Reviz\FrontBundle\Entity\Command", mappedBy="user", cascade={"persist"})
+     */
+    protected $commands;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -405,4 +420,38 @@ class User extends BaseUser
         return $this->myProfs;
     }
 
+
+    /**
+     * Add command
+     *
+     * @param \Reviz\FrontBundle\Entity\Command $command
+     *
+     * @return User
+     */
+    public function addCommand(\Reviz\FrontBundle\Entity\Command $command)
+    {
+        $this->commands[] = $command;
+
+        return $this;
+    }
+
+    /**
+     * Remove command
+     *
+     * @param \Reviz\FrontBundle\Entity\Command $command
+     */
+    public function removeCommand(\Reviz\FrontBundle\Entity\Command $command)
+    {
+        $this->commands->removeElement($command);
+    }
+
+    /**
+     * Get commands
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommands()
+    {
+        return $this->commands;
+    }
 }

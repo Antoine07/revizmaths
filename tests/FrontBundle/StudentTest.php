@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\FrontBundle;
+namespace Tests\FrontBundle;
 
 use Reviz\FrontBundle\Entity\User;
 

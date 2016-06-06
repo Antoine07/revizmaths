@@ -22,7 +22,7 @@ class Command
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Reviz\FrontBundle\Entity\User", inversedBy="commands", cascade={"persist"})
      */
     private $user;
 

@@ -3,10 +3,14 @@ php:
   - '5.6'
   - '7.0'
 
+services:
+  - mysql
+
 before_script:
   - phpenv config-rm xdebug.ini
   - composer selfupdate
   - composer install
+   - mysql -e 'create database db_revizmathstests;'
 
 script:
   - phpunit --configuration phpunit.xml

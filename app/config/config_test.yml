@@ -15,17 +15,13 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
-imports:
-    - { resource: config_dev.yml }
-
 doctrine:
     dbal:
-        default_connection: default
-
-        connections:
-            default:
-                driver:  pdo_sqlite
-                user:    test
-                path:    :memory:
-                memory: true
-                charset: utf8
+        server_version: '5.7.12'
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "db_revizmathstests"
+        user:     "root"
+        password: ""
+        charset:  UTF8

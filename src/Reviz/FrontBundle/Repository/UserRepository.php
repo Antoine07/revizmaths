@@ -38,7 +38,8 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         if (is_null($userId))
             return $this
                 ->createQueryBuilder('u')
-                ->join('u.myProfs', 'p');
+                ->where('u.roles LIKE :roleName')
+                ->setParameter('roleName', "%ROLE_PROFESSOR%");
 
         return $this
             ->createQueryBuilder('u')

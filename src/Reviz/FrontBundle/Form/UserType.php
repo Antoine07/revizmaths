@@ -34,6 +34,11 @@ class UserType extends AbstractType
 
         $selected = [];
 
+        if (isset($options['requiredPasswor'])) {
+            $options['first_password'] = 'reset your password';
+            $options['second_password'] = 'if reset you must repeat then';
+        }
+
         foreach ($user->getRoles() as $roleName) {
             if (!in_array($roleName, $labels)) continue;
 
@@ -52,17 +57,17 @@ class UserType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => array('attr' => array('class' => 'password-field')),
                 'required' => $options['requiredPassword'],
-                'first_options' => ['label' => 'reset your password'],
-                'second_options' => ['label' => 'if reset you must repeat then'],
+                'first_options' => ['label' => $options['first_password']],
+                'second_options' => ['label' => $options['second_password']],
             ))
             ->add('address')
             ->add('phone')
             ->add('myProfs', EntityType::class, [
                 'class' => 'Reviz\FrontBundle\Entity\User',
-                'query_builder' => function (EntityRepository $repo) use ($userId) {
-                    return $repo->getProfs($userId);
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->getProfs();
                 },
-                'label' => 'choisir mes profs: ',
+                'label' => 'choisir un prof',
                 'choice_label' => 'username',
                 'multiple' => true,
                 'expanded' => true,
@@ -85,7 +90,9 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Reviz\FrontBundle\Entity\User',
-            'requiredPassword' => true
+            'requiredPassword' => true,
+            'first_password' => 'give your password',
+            'second_password' => 'repeat then',
         ));
     }
 }

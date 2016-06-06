@@ -6,8 +6,6 @@ use Reviz\FrontBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * User controller.
@@ -23,7 +21,6 @@ class UserController extends Controller
     {
         $this->session = new Session();
     }
-
     /**
      * Lists all User entities.
      *
@@ -106,9 +103,15 @@ class UserController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
             $user = $editForm->getData();
-            $user->setPlainPassword($user->getPassword());
+
+            // min 5 characters
+            if (strlen($user->getPassword()) > 4)
+            {
+                $user->setPlainPassword($user->getPassword());
+            }
 
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($user);
             $em->flush();
 
