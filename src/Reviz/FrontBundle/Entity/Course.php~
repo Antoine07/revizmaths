@@ -1,3 +1,4 @@
+<<<<<<< 29ccd32116e0f660c19a8c521cc23909af8318c1
 <?php
 
 namespace Reviz\FrontBundle\Entity;
@@ -14,3 +15,26 @@ class Course extends Post
 {
 
 }
+=======
+<?php
+
+namespace Reviz\FrontBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Course
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="posts")
+ */
+class Course extends Post
+{
+    private $course;
+
+    public function getCourse() {
+
+        return $this->course;
+    }
+}
+>>>>>>> Debut CRUD method

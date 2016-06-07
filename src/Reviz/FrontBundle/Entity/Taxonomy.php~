@@ -1,3 +1,4 @@
+<<<<<<< 29ccd32116e0f660c19a8c521cc23909af8318c1
 <?php
 
 namespace Reviz\FrontBundle\Entity;
@@ -374,3 +375,386 @@ abstract class Taxonomy
         return $this->nbCourse;
     }
 }
+=======
+<?php
+
+namespace Reviz\FrontBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Taxonomy
+ *
+ * @ORM\Table(name="taxonomies")
+ * @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="term", type="string")
+ * @ORM\DiscriminatorMap({"taxonomy" = "Taxonomy", "tag" = "Tag", "category" = "Category", "module" = "Module", "level"="Level"})
+ * @ORM\Entity(repositoryClass="Reviz\FrontBundle\Repository\TaxonomyRepository")
+ */
+abstract class Taxonomy
+{
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="bigint")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="parent_id", type="integer", nullable=true)
+     */
+    private $parentId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100, nullable=false)
+     *
+     */
+    private $name;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_exercice", type="smallint", options={"default"=0}, nullable=true)
+     */
+    private $nbExercice;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_course", type="smallint", options={"default"=0}, nullable=true)
+     */
+    private $nbCourse;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_answer", type="smallint", options={"default"=0}, nullable=true)
+     */
+    private $nbAnswer;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_question", type="smallint", options={"default"=0}, nullable=true)
+     */
+    private $nbQuestion;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_method", type="smallint", options={"default"=0}, nullable=true)
+     */
+    private $nbMethod;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ref_module", type="string", length=100, unique=true, nullable=true)
+     */
+    private $refModule;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Reviz\FrontBundle\Entity\Post", mappedBy="taxonomies", cascade={"persist"})
+     */
+    private $posts;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set nbExercice
+     *
+     * @param integer $nbExercice
+     *
+     * @return Module
+     */
+    public function setNbExercice($nbExercice)
+    {
+        $this->nbExercice = $nbExercice;
+
+        return $this;
+    }
+
+    /**
+     * Get nbExercice
+     *
+     * @return integer
+     */
+    public function getNbExercice()
+    {
+        return $this->nbExercice;
+    }
+
+    /**
+     * Set nbAnswer
+     *
+     * @param integer $nbAnswer
+     *
+     * @return Module
+     */
+    public function setNbAnswer($nbAnswer)
+    {
+        $this->nbAnswer = $nbAnswer;
+
+        return $this;
+    }
+
+    /**
+     * Get nbAnswer
+     *
+     * @return integer
+     */
+    public function getNbAnswer()
+    {
+        return $this->nbAnswer;
+    }
+
+    /**
+     * Set nbQuestion
+     *
+     * @param integer $nbQuestion
+     *
+     * @return Module
+     */
+    public function setNbQuestion($nbQuestion)
+    {
+        $this->nbQuestion = $nbQuestion;
+
+        return $this;
+    }
+
+    /**
+     * Get nbQuestion
+     *
+     * @return integer
+     */
+    public function getNbQuestion()
+    {
+        return $this->nbQuestion;
+    }
+
+    /**
+     * Set nbMethod
+     *
+     * @param integer $nbMethod
+     *
+     * @return Module
+     */
+    public function setNbMethod($nbMethod)
+    {
+        $this->nbMethod = $nbMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get nbMethod
+     *
+     * @return integer
+     */
+    public function getNbMethod()
+    {
+        return $this->nbMethod;
+    }
+
+    /**
+     * Set refModule
+     *
+     * @param string $refModule
+     *
+     * @return Module
+     */
+    public function setRefModule($refModule)
+    {
+        $this->refModule = $refModule;
+
+        return $this;
+    }
+
+    /**
+     * Get refModule
+     *
+     * @return string
+     */
+    public function getRefModule()
+    {
+        return $this->refModule;
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set parentId
+     *
+     * @param integer $parentId
+     *
+     * @return Taxonomy
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+
+        return $this;
+    }
+
+    /**
+     * Get parentId
+     *
+     * @return int
+     */
+    public function getParentId()
+    {
+        return $this->parentId;
+    }
+
+    /**
+     * Set term
+     *
+     * @param string $term
+     *
+     * @return Taxonomy
+     */
+    public function setTerm($term)
+    {
+        $this->term = $term;
+
+        return $this;
+    }
+
+    /**
+     * Get term
+     *
+     * @return string
+     */
+    public function getTerm()
+    {
+        return $this->term;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Taxonomy
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function __get($name)
+    {
+        if ($decrease = substr($name, 8 )) {
+            $decrease = 'nb' . ucfirst($decrease);
+
+            if (property_exists($this, $decrease) && $this->$decrease > 0)
+                $this->$decrease--;
+            else
+                throw new \Exception(sprintf('system decrease taxonomy, this resource do not exists, %s', $decrease));
+
+            return;
+        }
+
+        throw new \Exception(sprintf('system decrease taxonomy, this resource do not exists, %s', $decrease));
+    }
+
+
+    /**
+     * Add post
+     *
+     * @param \Reviz\FrontBundle\Entity\Post $post
+     *
+     * @return Taxonomy
+     */
+    public function addPost(\Reviz\FrontBundle\Entity\Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \Reviz\FrontBundle\Entity\Post $post
+     */
+    public function removePost(\Reviz\FrontBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Set nbCourse
+     *
+     * @param integer $nbCourse
+     *
+     * @return Taxonomy
+     */
+    public function setNbCourse($nbCourse)
+    {
+        $this->nbCourse = $nbCourse;
+
+        return $this;
+    }
+
+    /**
+     * Get nbCourse
+     *
+     * @return integer
+     */
+    public function getNbCourse()
+    {
+        return $this->nbCourse;
+    }
+
+/*
+    public function __toString() {
+
+        return $this->name;
+    }*/
+}
+>>>>>>> Debut CRUD method

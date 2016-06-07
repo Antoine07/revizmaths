@@ -1,3 +1,4 @@
+<<<<<<< 29ccd32116e0f660c19a8c521cc23909af8318c1
 <?php
 
 namespace Reviz\FrontBundle\Entity;
