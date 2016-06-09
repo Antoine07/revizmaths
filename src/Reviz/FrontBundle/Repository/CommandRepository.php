@@ -21,7 +21,7 @@ class CommandRepository extends \Doctrine\ORM\EntityRepository
      * @param $userId
      * @return boolean
      */
-    public function search($objectId, $term, $userId)
+    public function isAccess($objectId, $term, $userId)
     {
 
         $term = strtolower($term);

@@ -1,0 +1,26 @@
+<div class="search">
+    <label for="search">Search modules</label>
+    <input type="text" name="search" id="search">
+</div>
+<div id="results">
+    <ul></ul>
+</div>
+
+<div class="commands">
+    {% if commands is not empty %}
+        <h2>Your modules</h2>
+        <ul id="user__commands">
+            {% for command in commands %}
+                <li>{{ command.taxonomy.name }}
+                 <span class="user__commands_active">
+                     {% set action = command.isLocked? 'disabled' : 'enabled' %}
+                     <a class="user__commands_active_action" data-id="{{ command.id }}"
+                         data-action="{{ action }}">{{ action }}</a>
+                 </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>no module yet</p>
+    {% endif %}
+</div>

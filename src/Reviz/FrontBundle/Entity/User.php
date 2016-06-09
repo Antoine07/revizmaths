@@ -36,7 +36,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
-     * @Assert\Regex("/^([0-9]{2}[ \-]){4}[0-9]{2}/")
+     * @Assert\Regex("/^\+?([0-9] ?){8}[0-9]{2}$/")
      */
     protected $phone;
 
@@ -80,8 +80,7 @@ class User extends BaseUser
      *
      * @var string
      *
-     * @Assert\Length(min=5)
-     * @Assert\Regex("/^([a-zA-Z])*[0-9]{2}([a-zA-Z])*$/")
+     * @Assert\Regex("/[a-zA-Z]\w(?=(.*[0-9]){2,}){5,}/")
      */
     protected $password;
 

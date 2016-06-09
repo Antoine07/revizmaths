@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'RevizFrontBundle:Layouts:adminDash.html.twig' %}
 
 {% block body %}
     <h1>User edit</h1>
@@ -10,17 +10,19 @@
         {% endfor %}
     {% endfor %}
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+    {{ form_widget(edit_form) }}
+    {{ form_widget(edit_form.password, {'help': 'foo'})}}
+    {{ form_widget(edit_form.myProfs) }}
+    <input type="submit" value="Edit"/>
     {{ form_end(edit_form) }}
-
+    {% include 'RevizFrontBundle:Partials:searchModule.html.twig' with {'commands': user.commands } %}
     <ul>
         <li>
             <a href="{{ path('admin_user_index') }}">Back to the list</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>

@@ -47,18 +47,22 @@ class UserType extends AbstractType
 
         $builder
             ->add('username', TextType::class, [
-                'required' => true
+                'required' => true,
+                'label' => 'Username'
             ])
             ->add('email', EmailType::class, [
-                'required' => true
+                'required' => true,
+                'label' => 'Email'
             ])
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
+                'label' => 'password',
                 'invalid_message' => 'The password fields must match.',
                 'options' => array('attr' => array('class' => 'password-field')),
                 'required' => $options['requiredPassword'],
                 'first_options' => ['label' => $options['first_password']],
                 'second_options' => ['label' => $options['second_password']],
+                'invalid_message' => 'your password do not match with politic security',
             ))
             ->add('address')
             ->add('phone')
@@ -67,11 +71,12 @@ class UserType extends AbstractType
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->getProfs();
                 },
-                'label' => 'choisir un prof',
+                'label' => 'Choice professor',
                 'choice_label' => 'username',
                 'multiple' => true,
                 'expanded' => true,
                 'required' => false,
+                'block_name' => 'profs',
             ])
             ->add('enabled', CheckboxType::class, [
                 'required' => false

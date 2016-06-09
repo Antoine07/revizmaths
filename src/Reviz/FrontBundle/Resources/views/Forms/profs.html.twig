@@ -1,0 +1,52 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_widget_simple %}
+    {{ parent() }}
+
+    {% if help is defined %}
+        <span class="field__help">{{ help }}</span>
+    {% endif %}
+{% endblock %}
+
+{% block _user_profs_widget %}
+    <div class="text_widget">
+        {% if form is not empty %}
+            {{ form_widget(form) }}
+        {% else %}
+           <p>no professor yet</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block form_label %}
+    {% if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+            '%name%': name,
+            '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+
+    <label class="field__label" for="{{ id }}">{{ label }}</label>
+
+    {% if required %}
+        <span class="field__required" title="This field is required">*</span>
+    {% endif %}
+{% endblock %}
+
+{% block field_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            <ul class="error_list">
+                {% for error in errors %}
+                    <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endspaceless %}
+{% endblock field_errors %}
+
+

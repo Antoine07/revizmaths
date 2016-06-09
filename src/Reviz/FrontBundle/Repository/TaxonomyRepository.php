@@ -107,14 +107,8 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function nbResources() {
-
-        /*$name = strtolower($name);
-
-        if(!in_array($name, ['course', 'method', 'exercice', 'answer', 'module']))
-            throw new \RuntimeException(sprintf('invalid name, %s, count number resources', $name));
-
-        $name = 'nb' . ucfirst($name);*/
+    public function nbResources()
+    {
 
         $dql = sprintf('
         SELECT SUM(t.nbCourse), SUM(t.nbMethod), SUM(t.nbExercice)
@@ -123,6 +117,20 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
 
         $query = $this->getEntityManager()
             ->createQuery($dql);
+
+        return $query->getResult();
+    }
+
+    public function search($name)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT m.name, m.id
+                FROM RevizFrontBundle:Taxonomy m
+                WHERE m.name LIKE :name
+            ');
+
+        $query->setParameter('name', $name . '%');
 
         return $query->getResult();
     }

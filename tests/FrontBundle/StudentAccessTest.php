@@ -167,10 +167,10 @@ class StudentAccessTest extends BaseTest
         foreach($videos as $videoId)
         {
             $search = $this->em->getRepository('RevizFrontBundle:Command')
-                ->search($videoId, 'video', 2);
+                ->isAccess($videoId, 'video', 2);
 
             $searchNoAcc = $this->em->getRepository('RevizFrontBundle:Command')
-                ->search($videoId, 'video', 3);
+                ->isAccess($videoId, 'video', 3);
 
             $this->assertTrue($search);
             $this->assertTrue(!$searchNoAcc);
@@ -179,10 +179,10 @@ class StudentAccessTest extends BaseTest
         foreach($posts as $postId)
         {
             $search = $this->em->getRepository('RevizFrontBundle:Command')
-                ->search($postId, 'post', 2);
+                ->isAccess($postId, 'post', 2);
 
             $searchNoAcc = $this->em->getRepository('RevizFrontBundle:Command')
-                ->search($postId, 'post', 3);
+                ->isAccess($postId, 'post', 3);
 
             $this->assertTrue($search);
             $this->assertTrue(!$searchNoAcc);

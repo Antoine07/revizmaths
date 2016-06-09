@@ -4,10 +4,13 @@ namespace Reviz\FrontBundle\Controller\Admin;
 
 use Reviz\FrontBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
 /**
  * User controller.
  *
@@ -22,6 +25,7 @@ class UserController extends Controller
     {
         $this->session = new Session();
     }
+
     /**
      * Lists all User entities.
      *
@@ -105,11 +109,7 @@ class UserController extends Controller
 
             $user = $editForm->getData();
 
-            // min 5 characters
-            if (strlen($user->getPassword()) > 4)
-            {
-                $user->setPlainPassword($user->getPassword());
-            }
+            $user->setPlainPassword($user->getPassword());
 
             $em = $this->getDoctrine()->getManager();
 
@@ -163,5 +163,69 @@ class UserController extends Controller
             ->setAction($this->generateUrl('admin_user_delete', ['id' => $user->getId()]))
             ->setMethod('DELETE')
             ->getForm();
+    }
+
+    /**
+     * @Route("/command/active", name="user_command_active")
+     * @Method("POST")
+     */
+    public function userCommandActiveAction(Request $request)
+    {
+
+        if ($request->isXmlHttpRequest()) {
+
+            $id = $request->get('id');
+            $em = $this->getDoctrine()->getManager();
+
+            $command = $em->getRepository('RevizFrontBundle:Command')->find((int)$id);
+            $user = $command->getUser();
+
+            if (!empty($command)) {
+                $isLocked = $command->getIsLocked();
+                $command->setIsLocked(!$isLocked);
+                $em->persist($command);
+                $em->flush();
+            }
+
+            $commands = $user->getCommands();
+
+            $data = [];
+            foreach ($commands as $command) {
+                $active = $command->getIsLocked();
+                $module = $command->getTaxonomy();
+                $data[] = [
+                    'id' => $command->getId(),
+                    'name' => $module->getName(),
+                    'active' => $active
+                ];
+            }
+
+            return new Response(json_encode($data));
+
+        }
+
+        return new Response("ok no request ajax");
+    }
+
+    /**
+     * @Route("/search", name="admin_user_search_modules")
+     * @Method("POST")
+     */
+    public function searchModulesAction(Request $request)
+    {
+
+        if ($request->isXmlHttpRequest()) {
+
+            $name = $request->get('search');
+
+            $em = $this->getDoctrine()->getManager();
+
+            $modules = $em->getRepository('RevizFrontBundle:Taxonomy')->search($name);
+
+            return new Response(json_encode($modules));
+
+        }
+
+        return new Response("ok no request ajax");
     }
 }

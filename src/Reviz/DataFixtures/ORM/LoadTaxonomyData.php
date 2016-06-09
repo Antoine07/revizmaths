@@ -81,7 +81,7 @@ class LoadTaxonomyData  extends AbstractFixture implements OrderedFixtureInterfa
         $add("5 eme", $modules, 'level');
 
         $categories = [
-            'propriété de linéarité',
+            'propriété de linéarité en cinquième',
             'tableau de proportionnalité',
             'pourcentage'
         ];
