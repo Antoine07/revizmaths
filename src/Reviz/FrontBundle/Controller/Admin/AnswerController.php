@@ -7,16 +7,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Reviz\FrontBundle\Entity\Exercice;
-use Reviz\FrontBundle\Form\ExerciceType;
+use Reviz\FrontBundle\Entity\Answer;
+use Reviz\FrontBundle\Form\AnswerType;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * Exercice controller.
+ * Answer controller.
  *
- * @Route("/admin/exercice")
+ * @Route("/admin/answer")
  */
-class ExerciceController extends Controller
+class AnswerController extends Controller
 {
     private $session;
 
@@ -24,39 +24,40 @@ class ExerciceController extends Controller
     {
         $this->session = new Session();
     }
-    
+
     /**
-     * Lists all Exercice entities.
+     * Lists all Answer entities.
      *
-     * @Route("/", name="admin_exercice_index")
+     * @Route("/", name="admin_answer_index")
      * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $exercices = $em->getRepository('RevizFrontBundle:Exercice')->findAll();
+        $answers = $em->getRepository('RevizFrontBundle:Answer')->findAll();
 
-        return $this->render('RevizFrontBundle:Back:Exercice/index.html.twig', array(
-            'exercices' => $exercices,
+        return $this->render('RevizFrontBundle:Back:Answer/index.html.twig', array(
+            'answers' => $answers,
         ));
     }
 
     /**
-     * Creates a new Exercice entity.
+     * Creates a new Answer entity.
      *
-     * @Route("/new", name="admin_exercice_new")
+     * @Route("/new", name="admin_answer_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
-        $exercice = new Exercice();
-        $form = $this->createForm('Reviz\FrontBundle\Form\ExerciceType', $exercice);
+        $answer = new Answer();
+        $form = $this->createForm('Reviz\FrontBundle\Form\AnswerType', $answer);
 
         $em = $this->getDoctrine()->getManager();
         $levels = $em->getRepository('RevizFrontBundle:Level')->findAll();
         $modules = $em->getRepository('RevizFrontBundle:Module')->findAll();
         $categories = $em->getRepository('RevizFrontBundle:Category')->findAll();
+        $exercices = $em->getRepository('RevizFrontBundle:Exercice')->findAll();
 
         $levelsFields = [];
         foreach ($levels as $level) $levelsFields[$level->getName()] = $level->getId();
@@ -66,6 +67,9 @@ class ExerciceController extends Controller
 
         $categoriesFields = [];
         foreach ($categories as $category) $categoriesFields[$category->getName()] = $category->getId();
+
+        $exercicesFields = [];
+        foreach ($exercices as $exercice) $exercicesFields[$exercice->getTitle()] = $exercice->getId();
 
         $levelsForm = $this->createFormBuilder()
             ->add('level', ChoiceType::class, array(
@@ -85,24 +89,32 @@ class ExerciceController extends Controller
             ))
             ->getForm();
 
+        $exercicesForm = $this->createFormBuilder()
+            ->add('exercices', ChoiceType::class, array(
+                'choices' => $exercicesFields,
+            ))
+            ->getForm();
+
         $form->handleRequest($request);
         $levelsForm->handleRequest($request);
         $modulesForm->handleRequest($request);
         $categoriesForm->handleRequest($request);
+        $exercicesForm->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $exercice = $form->getData();
+            $answer = $form->getData();
             $level = $levelsForm->getData();
             $module = $modulesForm->getData();
             $category = $categoriesForm->getData();
+            $exercice = $exercicesForm->getData();
 
-            if (isset($level['level']) && isset($module['module']) && isset($category['category'])) {
+            if (isset($level['level']) && isset($module['module']) && isset($category['category']) && isset($exercice['exercices'])) {
 
                 // reset relation table post_taxonomy because must be unique and the relation is many to many
-                foreach ($levels as $resetLevel) $exercice->removeTaxonomy($resetLevel);
+                foreach ($levels as $resetLevel) $answer->removeTaxonomy($resetLevel);
 
                 $levelEntity = $em->getRepository('RevizFrontBundle:Level')->findById((int)$level['level']);
-                $exercice->addTaxonomy($levelEntity[0]);
+                $answer->addTaxonomy($levelEntity[0]);
 
                 $moduleEntity = $em->getRepository('RevizFrontBundle:Module')->findById((int)$module['module']);
 
@@ -115,7 +127,7 @@ class ExerciceController extends Controller
                         $levelEntity[0]->getName()
                     ));
 
-                    return $this->redirectToRoute('admin_exercice_new', array('id' => $exercice->getId()));
+                    return $this->redirectToRoute('admin_answer_new', array('id' => $answer->getId()));
                 }
 
                 $categoryEntity = $em->getRepository('RevizFrontBundle:Category')->findById((int)$category['category']);
@@ -127,67 +139,76 @@ class ExerciceController extends Controller
                         $categoryEntity[0]->getName(),
                         $moduleEntity[0]->getName()
                     ));
-
-                    return $this->redirectToRoute('admin_course_edit', array('id' => $exercice->getId()));
+                    return $this->redirectToRoute('admin_answer_new', array('id' => $answer->getId()));
                 }
 
+                //level
+                //$a = $level->getNbAnswer() + 1;
+                //$level->setNbAnswer($a);
+
+                //var_dump($level['level']->getNbAnswer()); die;
+
                 // module
-                foreach ($modules as $resetModule) $exercice->removeTaxonomy($resetModule);
-                $exercice->addTaxonomy($moduleEntity[0]);
+                foreach ($modules as $resetModule) $answer->removeTaxonomy($resetModule);
+                $answer->addTaxonomy($moduleEntity[0]);
 
                 // category
-                foreach ($categories as $resetCategory) $exercice->removeTaxonomy($resetCategory);
-                $exercice->addTaxonomy($categoryEntity[0]);
+                foreach ($categories as $resetCategory) $answer->removeTaxonomy($resetCategory);
+                $answer->addTaxonomy($categoryEntity[0]);
 
+                //exercice
+                $answer->setPostParent($exercice['exercices']);
             }
 
-            $em->persist($exercice);
+            $em->persist($answer);
             $em->flush();
 
-            return $this->redirectToRoute('admin_exercice_show', array('id' => $exercice->getId()));
+            return $this->redirectToRoute('admin_answer_show', array('id' => $answer->getId()));
         }
 
-        return $this->render('RevizFrontBundle:Back:Exercice/new.html.twig', array(
-            'exercice' => $exercice,
+        return $this->render('RevizFrontBundle:Back:Answer/new.html.twig', array(
+            'answer' => $answer,
             'new_form' => $form->createView(),
             'levels' => $levels,
             'level_form' => $levelsForm->createView(),
             'module_form' => $modulesForm->createView(),
             'category_form' => $categoriesForm->createView(),
+            'exercice_form' => $exercicesForm->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Exercice entity.
+     * Finds and displays a Answer entity.
      *
-     * @Route("/{id}", name="admin_exercice_show")
+     * @Route("/{id}", name="admin_answer_show")
      * @Method("GET")
      */
-    public function showAction(Exercice $exercice)
+    public function showAction(Answer $answer)
     {
-        $deleteForm = $this->createDeleteForm($exercice);
+        $deleteForm = $this->createDeleteForm($answer);
 
-        return $this->render('RevizFrontBundle:Back:Exercice/show.html.twig', array(
-            'exercice' => $exercice,
+        return $this->render('RevizFrontBundle:Back:Answer/show.html.twig', array(
+            'answer' => $answer,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Displays a form to edit an existing Exercice entity.
+     * Displays a form to edit an existing Answer entity.
      *
-     * @Route("/{id}/edit", name="admin_exercice_edit")
+     * @Route("/{id}/edit", name="admin_answer_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Exercice $exercice)
+    public function editAction(Request $request, Answer $answer)
     {
-        $deleteForm = $this->createDeleteForm($exercice);
-        $editForm = $this->createForm('Reviz\FrontBundle\Form\ExerciceType', $exercice);
+        $deleteForm = $this->createDeleteForm($answer);
+        $editForm = $this->createForm('Reviz\FrontBundle\Form\AnswerType', $answer);
 
         $em = $this->getDoctrine()->getManager();
         $levels = $em->getRepository('RevizFrontBundle:Level')->findAll();
         $modules = $em->getRepository('RevizFrontBundle:Module')->findAll();
         $categories = $em->getRepository('RevizFrontBundle:Category')->findAll();
+        $exercices = $em->getRepository('RevizFrontBundle:Exercice')->findAll();
 
         $levelsFields = [];
         foreach ($levels as $level) $levelsFields[$level->getName()] = $level->getId();
@@ -197,6 +218,9 @@ class ExerciceController extends Controller
 
         $categoriesFields = [];
         foreach ($categories as $category) $categoriesFields[$category->getName()] = $category->getId();
+
+        $exercicesFields = [];
+        foreach ($exercices as $exercice) $exercicesFields[$exercice->getTitle()] = $exercice->getId();
 
         $levelsForm = $this->createFormBuilder()
             ->add('level', ChoiceType::class, array(
@@ -213,6 +237,12 @@ class ExerciceController extends Controller
         $categoriesForm = $this->createFormBuilder()
             ->add('category', ChoiceType::class, array(
                 'choices' => $categoriesFields,
+            ))
+            ->getForm();
+
+        $exercicesForm = $this->createFormBuilder()
+            ->add('exercices', ChoiceType::class, array(
+                'choices' => $exercicesFields,
             ))
             ->getForm();
 
@@ -220,20 +250,22 @@ class ExerciceController extends Controller
         $levelsForm->handleRequest($request);
         $modulesForm->handleRequest($request);
         $categoriesForm->handleRequest($request);
+        $exercicesForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $course = $editForm->getData();
+            $answer = $editForm->getData();
             $level = $levelsForm->getData();
             $module = $modulesForm->getData();
             $category = $categoriesForm->getData();
+            $exercice = $exercicesForm->getData();
 
-            if (isset($level['level']) && isset($module['module']) && isset($category['category'])) {
+            if (isset($level['level']) && isset($module['module']) && isset($category['category']) && isset($exercice['exercices'])) {
 
                 // reset relation table post_taxonomy because must be unique and the relation is many to many
-                foreach ($levels as $resetLevel) $course->removeTaxonomy($resetLevel);
+                foreach ($levels as $resetLevel) $answer->removeTaxonomy($resetLevel);
 
                 $levelEntity = $em->getRepository('RevizFrontBundle:Level')->findById((int)$level['level']);
-                $exercice->addTaxonomy($levelEntity[0]);
+                $answer->addTaxonomy($levelEntity[0]);
 
                 $moduleEntity = $em->getRepository('RevizFrontBundle:Module')->findById((int)$module['module']);
 
@@ -246,7 +278,7 @@ class ExerciceController extends Controller
                         $levelEntity[0]->getName()
                     ));
 
-                    return $this->redirectToRoute('admin_course_edit', array('id' => $exercice->getId()));
+                    return $this->redirectToRoute('admin_answer_new', array('id' => $answer->getId()));
                 }
 
                 $categoryEntity = $em->getRepository('RevizFrontBundle:Category')->findById((int)$category['category']);
@@ -258,69 +290,76 @@ class ExerciceController extends Controller
                         $categoryEntity[0]->getName(),
                         $moduleEntity[0]->getName()
                     ));
-
-                    return $this->redirectToRoute('admin_course_edit', array('id' => $exercice->getId()));
+                    return $this->redirectToRoute('admin_answer_new', array('id' => $answer->getId()));
                 }
 
+                //level
+                //$a = $level->getNbAnswer() + 1;
+                //$level->setNbAnswer($a);
+
+                //var_dump($level['level']->getNbAnswer()); die;
+
                 // module
-                foreach ($modules as $resetModule) $exercice->removeTaxonomy($resetModule);
-                $exercice->addTaxonomy($moduleEntity[0]);
+                foreach ($modules as $resetModule) $answer->removeTaxonomy($resetModule);
+                $answer->addTaxonomy($moduleEntity[0]);
 
                 // category
-                foreach ($categories as $resetCategory) $exercice->removeTaxonomy($resetCategory);
-                $exercice->addTaxonomy($categoryEntity[0]);
+                foreach ($categories as $resetCategory) $answer->removeTaxonomy($resetCategory);
+                $answer->addTaxonomy($categoryEntity[0]);
 
+                //exercice
+                $answer->setPostParent($exercice['exercices']);
             }
 
-            $em->persist($exercice);
+            $em->persist($answer);
             $em->flush();
 
-            return $this->redirectToRoute('admin_exercice_edit', array('id' => $exercice->getId()));
+            return $this->redirectToRoute('admin_answer_edit', array('id' => $answer->getId()));
         }
 
-        return $this->render('RevizFrontBundle:Back:Exercice/edit.html.twig', array(
-            'exercice' => $exercice,
+        return $this->render('RevizFrontBundle:Back:Answer/edit.html.twig', array(
+            'answer' => $answer,
             'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
             'levels' => $levels,
-            'modules' => $modules,
             'level_form' => $levelsForm->createView(),
             'module_form' => $modulesForm->createView(),
             'category_form' => $categoriesForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'exercice_form' => $exercicesForm->createView(),
         ));
     }
 
     /**
-     * Deletes a Exercice entity.
+     * Deletes a Answer entity.
      *
-     * @Route("/{id}", name="admin_exercice_delete")
+     * @Route("/{id}", name="admin_answer_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Exercice $exercice)
+    public function deleteAction(Request $request, Answer $answer)
     {
-        $form = $this->createDeleteForm($exercice);
+        $form = $this->createDeleteForm($answer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($exercice);
+            $em->remove($answer);
             $em->flush();
         }
 
-        return $this->redirectToRoute('admin_exercice_index');
+        return $this->redirectToRoute('admin_answer_index');
     }
 
     /**
-     * Creates a form to delete a Exercice entity.
+     * Creates a form to delete a Answer entity.
      *
-     * @param Exercice $exercice The Exercice entity
+     * @param Answer $answer The Answer entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Exercice $exercice)
+    private function createDeleteForm(Answer $answer)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_exercice_delete', array('id' => $exercice->getId())))
+            ->setAction($this->generateUrl('admin_answer_delete', array('id' => $answer->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
