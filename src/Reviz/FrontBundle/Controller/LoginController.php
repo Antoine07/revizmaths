@@ -125,11 +125,5 @@ class LoginController extends Controller {
         return $this->render('RevizFrontBundle:Front:admin.html.twig');
     }
 
-    /**
-     * @Route("/student/dashboard", name="student_homepage")
-     */
-    public function getStudentOfficeAction() {
-
-        return $this->render('RevizFrontBundle:Front:student.html.twig');
-    }
+    
 }

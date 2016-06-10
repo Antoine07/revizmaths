@@ -32,19 +32,28 @@
                 <section class="header-top--login-bar">
                     <h1 class="main-logo">Maths'nifique</h1>
                     <div>
-                        <a href="{{ path('fos_user_security_login') }}">Connexion</a>
-                        <a href="{{ path('fos_user_registration_register') }}">S'inscrire</a>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                        {% if app.user %}
+                            <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                        {% else %}
+                            <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                            <li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
                         {% endif %}
                     </div>
                 </section>
                 <section class="header-top--nav-bar">
 
-                    {% include "RevizFrontBundle:Partials:nav.html.twig" %}
+                    {{ render(controller("RevizFrontBundle:Front:menu")) }}
 
                 </section>
             </section>
         </header>
+
+
+        <main>
+            {% block content %}
+
+            {% endblock content %}
+        </main>
+
     </section>
 </body>

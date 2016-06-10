@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Title</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -14,6 +15,7 @@
         {% for method in methods %}
             <tr>
                 <td><a href="{{ path('admin_method_show', { 'id': method.id }) }}">{{ method.id }}</a></td>
+                <td><a href="{{ path('admin_method_edit', { 'id': method.id }) }}">{{ method.title }}</a></td>
                 <td>
                     <ul>
                         <li>

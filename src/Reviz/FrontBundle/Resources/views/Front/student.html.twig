@@ -1,1 +1,16 @@
-<h1>Coucou STUDENT</h1>
+{% extends "RevizFrontBundle:Layouts:studentDash.html.twig" %}
+
+
+{% block content %}
+    <ul>
+    {% for name, categories in modules %}
+        <li class="nav-level">{{ name }}
+            <ul>
+                {% for category in categories %}
+                    <li class="nav-category"><a href="{{ path('home', {'id' : category.id}) }}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}
