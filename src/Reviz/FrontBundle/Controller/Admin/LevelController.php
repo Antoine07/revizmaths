@@ -23,6 +23,7 @@ class LevelController extends Controller
     public function __construct()
     {
         $this->session = new Session();
+    }
     /**
      * Lists all Level entities.
      *
