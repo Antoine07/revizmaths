@@ -1,0 +1,10 @@
+{% extends "RevizFrontBundle:Layouts:studentDash.html.twig" %}
+
+{% block content %}
+
+    {{ form_start(form_settings) }}
+    {{ form_row(form_settings.username, { 'attr' : { 'value' : app.user.username }}) }}
+    {{ form_row(form_settings.email, { 'attr' : { 'value' : app.user.email }}) }}
+    {{ form_end(form_settings) }}
+
+{% endblock content %}
