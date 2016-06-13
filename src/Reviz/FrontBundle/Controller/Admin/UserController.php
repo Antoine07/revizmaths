@@ -3,6 +3,7 @@
 namespace Reviz\FrontBundle\Controller\Admin;
 
 use Reviz\FrontBundle\Entity\User;
+use Reviz\FrontBundle\Entity\Command;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -166,48 +167,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/command/active", name="user_command_active")
-     * @Method("POST")
-     */
-    public function userCommandActiveAction(Request $request)
-    {
-
-        if ($request->isXmlHttpRequest()) {
-
-            $id = $request->get('id');
-            $em = $this->getDoctrine()->getManager();
-
-            $command = $em->getRepository('RevizFrontBundle:Command')->find((int)$id);
-            $user = $command->getUser();
-
-            if (!empty($command)) {
-                $isLocked = $command->getIsLocked();
-                $command->setIsLocked(!$isLocked);
-                $em->persist($command);
-                $em->flush();
-            }
-
-            $commands = $user->getCommands();
-
-            $data = [];
-            foreach ($commands as $command) {
-                $active = $command->getIsLocked();
-                $module = $command->getTaxonomy();
-                $data[] = [
-                    'id' => $command->getId(),
-                    'name' => $module->getName(),
-                    'active' => $active
-                ];
-            }
-
-            return new Response(json_encode($data));
-
-        }
-
-        return new Response("ok no request ajax");
-    }
-
-    /**
      * @Route("/search", name="admin_user_search_modules")
      * @Method("POST")
      */
@@ -226,6 +185,160 @@ class UserController extends Controller
 
         }
 
-        return new Response("ok no request ajax");
+        return new Response("no request ajax");
     }
+
+    /**
+     * @Route("/command/active", name="user_command_active")
+     * @Method("POST")
+     */
+    public function userCommandActiveAction(Request $request)
+    {
+
+        if ($request->isXmlHttpRequest()) {
+
+            $id = (int)$request->get('id');
+            $em = $this->getDoctrine()->getManager();
+
+            $command = $em->getRepository('RevizFrontBundle:Command')->find($id);
+
+            if (is_null($command)) return new Response(json_encode(['message_error' => 'no command exists for you, contact administrator']));
+
+            $user = $command->getUser();
+
+            $isLocked = $command->getIsLocked();
+
+            $status = ($isLocked) ? 'is locked, click here to enabled it?' : 'is not locked, click here to disabled it?';
+
+            $command->setIsLocked(!$isLocked);
+            $em->persist($command);
+            $em->flush();
+
+            $data = $this->commandByUser($user);
+            $data['message_success'] = sprintf('success, %s ', $status);
+
+            return new Response(json_encode($data));
+
+        }
+
+        return new Response("no request ajax");
+    }
+
+    /**
+     * @Route("/command/delete", name="admin_user_delete_module")
+     * @Method("POST")
+     */
+    public function deleteModuleAction(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $id = (int)$request->get('id');
+            $em = $this->getDoctrine()->getManager();
+
+            $command = $em->getRepository('RevizFrontBundle:Command')->find($id);
+
+            if (is_null($command)) return new Response(json_encode(['message_error' => 'no command exists for you, contact administrator']));
+
+            $user = $command->getUser();
+
+            $em->remove($command);
+            $em->flush();
+
+            $data = $this->commandByUser($user);
+            $data['message_success'] = 'success delete your command module';
+
+            return new Response(json_encode($data));
+        }
+
+        return new Response("no request ajax");
+    }
+
+    /**
+     * @Route("/command/add", name="admin_user_add_module")
+     * @Method("POST")
+     */
+    public function addModuleAction(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $data = [];
+
+            if (
+                $request->get('moduleId')
+                && $request->get('userId')
+            ) {
+                $moduleId = (int)$request->get('moduleId');
+                $userId = (int)$request->get('userId');
+                $em = $this->getDoctrine()->getManager();
+                $module = $em->getRepository('RevizFrontBundle:Taxonomy')->find($moduleId);
+                $user = $em->getRepository('RevizFrontBundle:User')->find($userId);
+
+                // check if command is not into commands table
+                $commands = $em->getRepository('RevizFrontBundle:Command')->findBy([
+                    'user' => $userId,
+                    'taxonomy' => $moduleId
+                ]);
+
+                if (count($commands) > 0) return new Response(json_encode([
+                    'message_error' => 'this module is already in your space student'
+                ]));
+
+                $command = new Command();
+                $command->setTaxonomy($module);
+                $command->setUser($user);
+
+                $posts = $module->getPosts();
+                $serializedPost = [];
+                $serializedVideo = [];
+                // posts
+                foreach ($posts as $post) {
+                    $serializedPost[] = $post->getId();
+                    $videos = $this->em->getRepository('RevizFrontBundle:Post')
+                        ->getVideos($post->getId());
+                    foreach ($videos as $video) {
+                        $serializedVideo[] = $video->getId();
+                    }
+                }
+                $command->setAccessPosts(json_encode($serializedPost));
+                $command->setAccessVideos(json_encode($serializedVideo));
+
+                $em->persist($command);
+                $em->flush();
+                $data = $this->commandByUser($user);
+                $data['message_success'] = 'success add module in your space student';
+
+                return new Response(json_encode($data));
+
+            } else
+                return new Response(json_encode(['message_error' => 'we can not add a new module contact administrator']));
+        }
+
+        return new Response("no request ajax");
+    }
+
+    /**
+     * commandByUser
+     *
+     * @param User $user
+     * @return array
+     */
+    private function commandByUser(User $user)
+    {
+
+        $commands = $user->getCommands();
+
+        $data = [];
+        foreach ($commands as $command) {
+            $module = $command->getTaxonomy();
+            $data[] = [
+                'id' => $command->getId(),
+                'name' => $module->getName(),
+                'active' => $command->getIsLocked()
+            ];
+        }
+
+        return $data;
+
+    }
+
 }

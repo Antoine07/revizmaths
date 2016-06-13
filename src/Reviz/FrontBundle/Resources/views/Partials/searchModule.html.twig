@@ -1,10 +1,14 @@
 <div class="search">
+
     <label for="search">Search modules</label>
-    <input type="text" name="search" id="search">
+    <input data-user="{% if user is not empty %}{{ user.id }}{% endif %}" type="text" name="search" id="search">
+
 </div>
 <div id="results">
     <ul></ul>
 </div>
+
+<div id="message"></div>
 
 <div class="commands">
     {% if commands is not empty %}
@@ -12,15 +16,19 @@
         <ul id="user__commands">
             {% for command in commands %}
                 <li>{{ command.taxonomy.name }}
-                 <span class="user__commands_active">
-                     {% set action = command.isLocked? 'disabled' : 'enabled' %}
-                     <a class="user__commands_active_action" data-id="{{ command.id }}"
-                         data-action="{{ action }}">{{ action }}</a>
+                    <span class="user__commands-action">
+                     {% set action = command.isLocked? 'is locked, click here to enabled it?' : 'is not locked, click here to disabled it?' %}
+                        <a class="user__commands-action-active" data-id="{{ command.id }}"
+                           data-action="{{ action }}">{{ action }}</a>
+                        <a data-id="{{ command.id }}" class="user__commands-action-delete">Or click here to delete it</a>
                  </span>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>no module yet</p>
+        <h2>Your modules</h2>
+        <ul id="user__commands">
+            <li>no module yet</li>
+        </ul>
     {% endif %}
 </div>

@@ -4,14 +4,14 @@ namespace Tests\FrontBundle;
 
 use Reviz\FrontBundle\Entity\User;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Bundle\DoctrineBundle\Command\DropDatabaseDoctrineCommand;
+use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\CreateSchemaDoctrineCommand;
-
 
 
 abstract class BaseTest extends WebTestCase
@@ -19,6 +19,7 @@ abstract class BaseTest extends WebTestCase
     protected $em;
     private $application;
     protected $container;
+    protected $client = null;
 
     public function setUp()
     {
@@ -46,6 +47,7 @@ abstract class BaseTest extends WebTestCase
         $command->run($input, new NullOutput());
         $this->setDataTerm('terms');
     }
+
     /**
      * {@inheritDoc}
      */
@@ -65,6 +67,7 @@ abstract class BaseTest extends WebTestCase
         $command->run($input, new NullOutput());
         $this->em->close();
     }
+
     /**
      * getYaml
      *
@@ -79,6 +82,7 @@ abstract class BaseTest extends WebTestCase
         );
         return $data;
     }
+
     /**
      * set data terms level module and category
      *
@@ -102,6 +106,7 @@ abstract class BaseTest extends WebTestCase
         $tax('Level');
         $this->em->flush();
     }
+
     /**
      * setUserData
      *
@@ -125,6 +130,7 @@ abstract class BaseTest extends WebTestCase
         }
         $this->em->flush();
     }
+
     /**
      * setDataPost
      *
@@ -148,6 +154,7 @@ abstract class BaseTest extends WebTestCase
         }
         $this->em->flush();
     }
+
     protected function add()
     {
         return function ($term, $titleTerm, $resource, $nb) {
@@ -159,6 +166,7 @@ abstract class BaseTest extends WebTestCase
             $this->setDataPost(ucfirst($resource), $category, $nb);
         };
     }
+
     protected function generator()
     {
         return function ($max) {
@@ -167,4 +175,42 @@ abstract class BaseTest extends WebTestCase
             }
         };
     }
+
+    protected function logIn($userName = 'AntoineL', $password = 'Antoine')
+    {
+
+        if (is_null($this->client)) throw new \RuntimeException('you do not have any instance of client');
+
+        $session = $this->container->get('session');
+        /** @var $userManager \FOS\UserBundle\Doctrine\UserManager */
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        /** @var $loginManager \FOS\UserBundle\Security\LoginManager */
+        $loginManager = $this->container->get('fos_user.security.login_manager');
+        $firewallName = $this->container->getParameter('fos_user.firewall_name');
+
+        $userAdmin = $userManager->createUser();
+
+        $userAdmin->setUsername($userName);
+        $userAdmin->setEmail('antoine@example.com');
+        $userAdmin->setPlainPassword($password);
+        $userAdmin->setEnabled(true);
+        $userAdmin->setRoles(['ROLE_ADMIN']);
+
+        $userManager->updateUser($userAdmin, true);
+
+        $loginManager->loginUser($firewallName, $userAdmin);
+
+        // save the login token into the session and put it in a cookie
+        $this->container->get('session')->set('_security_' . $firewallName,
+            serialize($this->container->get('security.token_storage')->getToken()));
+        $this->container->get('session')->save();
+        $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
+
+        return $this->client;
+    }
+
+
+
+
 }

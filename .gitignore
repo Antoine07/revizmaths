@@ -16,4 +16,5 @@
 composer.lock
 node_modules/
 deploy.sh
+casperJS/
 .idea/

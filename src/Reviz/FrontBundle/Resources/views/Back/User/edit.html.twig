@@ -15,7 +15,7 @@
     {{ form_widget(edit_form.myProfs) }}
     <input type="submit" value="Edit"/>
     {{ form_end(edit_form) }}
-    {% include 'RevizFrontBundle:Partials:searchModule.html.twig' with {'commands': user.commands } %}
+    {% include 'RevizFrontBundle:Partials:searchModule.html.twig' with {'commands': user.commands} %}
     <ul>
         <li>
             <a href="{{ path('admin_user_index') }}">Back to the list</a>

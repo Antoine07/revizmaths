@@ -126,7 +126,7 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->getEntityManager()
             ->createQuery('
                 SELECT m.name, m.id
-                FROM RevizFrontBundle:Taxonomy m
+                FROM RevizFrontBundle:Module m
                 WHERE m.name LIKE :name
             ');
 

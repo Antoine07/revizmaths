@@ -2,12 +2,14 @@
 
 namespace Tests\FrontBundle;
 
-use Symfony\Component\BrowserKit\Cookie;
+
+use Reviz\FrontBundle\Entity\Command;
+use Reviz\FrontBundle\Entity\Module;
 
 class UserControllerTest extends BaseTest
 {
 
-    private $client = null;
+    protected $client = null;
 
     public function setUp()
     {
@@ -73,37 +75,48 @@ class UserControllerTest extends BaseTest
 
     }
 
-
-    private function logIn()
+    public function testDisabledModule()
     {
-        $session = $this->container->get('session');
-        /** @var $userManager \FOS\UserBundle\Doctrine\UserManager */
-        $userManager = $this->container->get('fos_user.user_manager');
+        $client = $this->logIn('AntoineL', 'Antoine');
+        $commandId = $this->prepareCommand();
 
-        /** @var $loginManager \FOS\UserBundle\Security\LoginManager */
-        $loginManager = $this->container->get('fos_user.security.login_manager');
-        $firewallName = $this->container->getParameter('fos_user.firewall_name');
+        var_dump($commandId);
 
-        $userAdmin = $userManager->createUser();
+        $crawler = $client->request('POST', 'http://revizmaths.local/admin/user/command/active', ['id' => $commandId], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
-        $userAdmin->setUsername('AntoineL');
-        $userAdmin->setEmail('antoine@example.com');
-        $userAdmin->setPlainPassword('Antoine');
-        $userAdmin->setEnabled(true);
-        $userAdmin->setRoles(['ROLE_ADMIN']);
-
-        $userManager->updateUser($userAdmin, true);
-
-        $loginManager->loginUser($firewallName, $userAdmin);
-
-        // save the login token into the session and put it in a cookie
-        $this->container->get('session')->set('_security_' . $firewallName,
-            serialize($this->container->get('security.token_storage')->getToken()));
-        $this->container->get('session')->save();
-        $this->client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
-
-        return $this->client;
+        //var_dump($client->getResponse()->getContent());
     }
 
+    protected function prepareCommand()
+    {
+
+        $module= new Module();
+        $module->setName('Arithmetic');
+        $this->em->persist($module);
+        $this->em->flush();
+
+        $student = $this->em
+            ->getRepository('RevizFrontBundle:User')
+            ->findByUsername('AntoineL');
+
+        $arithmetic = $this->em
+            ->getRepository('RevizFrontBundle:Module')
+            ->findByName('Arithmetic');
+
+        $command = new Command();
+        $command->setUser($student[0]);
+        $command->setTaxonomy($arithmetic[0]);
+        $command->setIsLocked(true);
+
+        $this->em->persist($command);
+        $this->em->flush();
+
+        $commands = $student[0]->getCommands();
+
+        return $commands[0]->getId();
+
+    }
 
 }

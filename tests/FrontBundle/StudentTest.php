@@ -19,7 +19,7 @@ class StudentTest extends BaseTest
         $student->setUsername('Tony');
         $student->setEmail('tony.lucsko@gmail.com');
         $student->addRole('ROLE_STUDENT');
-        $student->setPassword('Tony');
+        $student->setPlainPassword('Tony');
 
         $generator = $this->generator();
 
@@ -28,7 +28,7 @@ class StudentTest extends BaseTest
             $prof = new User;
             $prof->setUsername('Antoine' . $item);
             $prof->setEmail('antoine.lucsko@gmail.com' . $item);
-            $prof->setPassword('Antoine' . $item);
+            $prof->setPlainPassword('Antoine' . $item);
             $prof->addRole('ROLE_PROFESSOR');
 
             $student->addMyProf($prof);
@@ -68,14 +68,14 @@ class StudentTest extends BaseTest
         $prof->setUsername('Simon');
         $prof->setEmail('simon.lucsko@gmail.com');
         $prof->addRole('ROLE_PROFESSOR');
-        $prof->setPassword('Simon');
+        $prof->setPlainPassword('Simon');
 
         // generate students
         foreach ($generator(15) as $item) {
             $student = new User;
             $student->setUsername('AntoineM' . $item);
             $student->setEmail('antoinem.lucsko@gmail.com' . $item);
-            $student->setPassword('AntoineM' . $item);
+            $student->setPlainPassword('AntoineM' . $item);
             $student->addRole('ROLE_STUDENT');
             $prof->addMyStudent($student);
 
@@ -107,7 +107,7 @@ class StudentTest extends BaseTest
         $prof = new User;
         $prof->setUsername('Antoine');
         $prof->setEmail('antoine.lucsko@gmail.com' );
-        $prof->setPassword('Antoine' );
+        $prof->setPlainPassword('Antoine' );
         $prof->addRole('ROLE_PROFESSOR');
         $prof->addRole('ROLE_STUDENT');
         $prof->addRole('ROLE_ADMIN');
