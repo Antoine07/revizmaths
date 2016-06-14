@@ -1,0 +1,10 @@
+{% extends "RevizFrontBundle:Layouts:studentDash.html.twig" %}
+
+{% block content %}
+    <p>Catégorie: {{ category[0].name }}</p>
+    {% for post in posts %}
+        <ul>
+            <li>{{ post }}</li>
+        </ul>
+    {% endfor %}
+{% endblock content %}

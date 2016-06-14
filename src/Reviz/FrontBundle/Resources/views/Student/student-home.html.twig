@@ -7,7 +7,7 @@
         <li class="nav-level">{{ name }}
             <ul>
                 {% for category in categories %}
-                    <li class="nav-category"><a href="{{ path('home', {'id' : category.id}) }}">{{ category.name }}</a></li>
+                    <li class="nav-category"><a href="{{ path('student_category_show', {'id' : category.id}) }}">{{ category.name }}</a></li>
                 {% endfor %}
             </ul>
         </li>

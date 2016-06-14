@@ -47,6 +47,23 @@ class StudentController extends Controller
     }
 
     /**
+     * @Route("/student/dashboard/{id}", name="student_category_show")
+     */
+    public function showCategoryAction($id) {
+
+        $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Category');
+
+        $category = $repo->findBy(array('id' => $id));
+        $posts = $category[0]->getPosts();
+        
+        return $this->render('RevizFrontBundle:Student:show-category.html.twig', array(
+            'category' => $category,
+            'posts' => $posts
+        ));
+
+    }
+
+    /**
      * @Route("/student/dashboard/settings", name="student_settings")
      */
     public function settingsAction(Request $request) {
