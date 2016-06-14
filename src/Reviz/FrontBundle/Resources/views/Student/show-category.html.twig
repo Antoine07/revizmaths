@@ -30,7 +30,7 @@
                 {% else %}
                     <li>Pas de cours disponibles</li>
                 {% endif %}
-            <ul>
+            </ul>
         </div>
 
         <div>
@@ -38,7 +38,7 @@
             <ul>
                 {% if exercices is not empty %}
                     {% for exercice in exercices %}
-                        <li><a href="">{{ exercice }}</a></li>
+                        <li><a href="{{ path('student_exercice_show', { 'id' : exercice.getId() }) }}">{{ exercice }}</a></li>
                     {% endfor %}
                 {% else %}
                     <li>Pas d'exercices disponibles</li>

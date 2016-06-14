@@ -41,7 +41,7 @@ class StudentController extends Controller
     }
 
     /**
-     * @Route("/student/dashboard/{id}", name="student_category_show", requirements={"id" = "\d+"})
+     * @Route("/student/dashboard/category/{id}", name="student_category_show", requirements={"id" = "\d+"})
      */
     public function showCategoryAction($id) {
        
@@ -67,6 +67,21 @@ class StudentController extends Controller
             'methods' => $methods,
         ));
 
+    }
+
+    /**
+     * @Route("/student/dashboard/exercice/{id}", name="student_exercice_show")
+     */
+    public function showExerciceAction($id) {
+
+        $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Post');
+        
+        $exercice = $repo->find(['id' => $id]);
+        
+        return $this->render('RevizFrontBundle:Student:show-exercice.html.twig', array(
+            'exercice' => $exercice
+        ));
+        
     }
 
     /**
