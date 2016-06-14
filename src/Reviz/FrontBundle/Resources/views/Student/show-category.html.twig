@@ -1,10 +1,49 @@
 {% extends "RevizFrontBundle:Layouts:studentDash.html.twig" %}
 
 {% block content %}
-    <p>Catégorie: {{ category[0].name }}</p>
-    {% for post in posts %}
-        <ul>
-            <li>{{ post }}</li>
-        </ul>
-    {% endfor %}
+    <p><a href="{{ path('student_homepage') }}">retour dashboard</a></p>
+
+    <h2>Module: {{ module.name }}</h2>
+    <p>Catégorie: {{ category.name }}</p>
+
+    <section class="container-posts">
+        <div>
+            <h3>Méthodes</h3>
+            <ul>
+                {% if methods is not empty %}
+                    {% for method in methods %}
+                        <li><a href="">{{ method }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li>Pas de methodes disponibles</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div>
+            <h3>Cours</h3>
+            <ul>
+                {% if courses is not empty %}
+                    {% for course in courses %}
+                        <li><a href="">{{ course }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li>Pas de cours disponibles</li>
+                {% endif %}
+            <ul>
+        </div>
+
+        <div>
+            <h3>Exercices</h3>
+            <ul>
+                {% if exercices is not empty %}
+                    {% for exercice in exercices %}
+                        <li><a href="">{{ exercice }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li>Pas d'exercices disponibles</li>
+                {% endif %}
+            </ul>
+        </div>
+    </section>
 {% endblock content %}

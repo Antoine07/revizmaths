@@ -33,12 +33,6 @@ class StudentController extends Controller
 
             $modules [$command->getTaxonomy()->getName()] = $categories;
         }
-        // dump($modules); die;
-
-        /*$posts = $module->getPosts();
-        foreach ($posts as $post) {
-            $data[] = $post->getTitle();
-        }*/
 
         return $this->render('RevizFrontBundle:Student:student-home.html.twig', [
             'student' => $student,
@@ -47,18 +41,30 @@ class StudentController extends Controller
     }
 
     /**
-     * @Route("/student/dashboard/{id}", name="student_category_show")
+     * @Route("/student/dashboard/{id}", name="student_category_show", requirements={"id" = "\d+"})
      */
     public function showCategoryAction($id) {
+       
+        $em = $this->getDoctrine()->getManager();
 
-        $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Category');
+        $repo = $em->getRepository('RevizFrontBundle:Category');
+        $category = $repo->find(array('id' => $id));
+        $cat = $category->getParentId();
 
-        $category = $repo->findBy(array('id' => $id));
-        $posts = $category[0]->getPosts();
+        $rep = $em->getRepository('RevizFrontBundle:module');
+        $module = $rep->find(array('id' => $cat));
+
+        $repository = $em->getRepository('RevizFrontBundle:Post');
+        $courses = $repository->allPostByTermId($category, 'Course');
+        $exercices = $repository->allPostByTermId($category, 'Exercice');
+        $methods =$repository->allPostByTermId($category, 'Method');
         
         return $this->render('RevizFrontBundle:Student:show-category.html.twig', array(
+            'module' => $module,
             'category' => $category,
-            'posts' => $posts
+            'courses' => $courses,
+            'exercices' => $exercices,
+            'methods' => $methods,
         ));
 
     }
