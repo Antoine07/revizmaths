@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <span><a href="">Retour</a></span>
+    <span><a href="{{ path('student_category_show', { 'id' : category.getId() }) }}">Retour</a></span>
 
     <h2>{{ course.title }}</h2>
 

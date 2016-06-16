@@ -77,8 +77,14 @@ class StudentController extends Controller
         $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Post');
         $method = $repo->find(['id' => $id]);
 
+        $category = $this->getDoctrine()
+            ->getRepository('RevizFrontBundle:Taxonomy')
+            ->getCategory($method->getId());
+
+
         return $this->render('RevizFrontBundle:Student:show-method.html.twig', array(
             'method' => $method,
+            'category' => $category,
         ));
 
     }
@@ -91,8 +97,13 @@ class StudentController extends Controller
         $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Post');
         $course = $repo->find(['id' => $id]);
 
+        $category = $this->getDoctrine()
+            ->getRepository('RevizFrontBundle:Taxonomy')
+            ->getCategory($course->getId());
+
         return $this->render('RevizFrontBundle:Student:show-course.html.twig', array(
             'course' => $course,
+            'category' => $category,
         ));
 
     }
@@ -104,9 +115,14 @@ class StudentController extends Controller
 
         $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Post');
         $exercice = $repo->find(['id' => $id]);
+
+        $category = $this->getDoctrine()
+            ->getRepository('RevizFrontBundle:Taxonomy')
+            ->getCategory($exercice->getId());
         
         return $this->render('RevizFrontBundle:Student:show-exercice.html.twig', array(
             'exercice' => $exercice,
+            'category' => $category,
         ));
         
     }
