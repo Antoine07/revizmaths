@@ -143,7 +143,7 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
      *
      * return categories where post assoc
      */
-    public function getCat($postId)
+    public function getCategories($postId)
     {
         $query = $this->getEntityManager()
             ->createQuery('
@@ -156,6 +156,31 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
         $query->setParameter('id', $postId);
 
         return $query->getResult();
+    }
+
+    /**
+     * getCategory
+     *
+     * @param $postId
+     * @return array
+     *
+     * return last category assoc
+     */
+    public function getCategory($postId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT c
+                FROM RevizFrontBundle:Category c
+                JOIN c.posts p
+                WHERE p.id = :id
+                ORDER BY c.id DESC
+            ');
+
+        $query->setParameter('id', $postId);
+        $query->setMaxResults(1);
+
+        return $query->getOneOrNullResult();
     }
 
 }

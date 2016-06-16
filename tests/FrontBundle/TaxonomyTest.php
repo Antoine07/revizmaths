@@ -162,17 +162,13 @@ class TaxonomyTest extends BaseTest
 
         foreach($exercices as $exercice)
         {
-            $categories = $this->em
+            $category = $this->em
                 ->getRepository('RevizFrontBundle:Taxonomy')
-                ->getCat($exercice->getId());
+                ->getCategory($exercice->getId());
 
-            foreach($categories as $category){
-                $this->assertEquals('addition et multiplication', $category->getName());
-            }
-
+            $this->assertEquals('addition et multiplication', $category->getName());
         }
 
     }
-
 
 }
