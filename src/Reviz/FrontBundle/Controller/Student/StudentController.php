@@ -70,16 +70,43 @@ class StudentController extends Controller
     }
 
     /**
+     * @Route("/student/dashboard/method/{id}", name="student_method_show")
+     */
+    public function showMethodAction($id) {
+
+        $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Post');
+        $method = $repo->find(['id' => $id]);
+
+        return $this->render('RevizFrontBundle:Student:show-method.html.twig', array(
+            'method' => $method,
+        ));
+
+    }
+
+    /**
+     * @Route("/student/dashboard/course/{id}", name="student_course_show")
+     */
+    public function showCourseAction($id) {
+
+        $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Post');
+        $course = $repo->find(['id' => $id]);
+
+        return $this->render('RevizFrontBundle:Student:show-course.html.twig', array(
+            'course' => $course,
+        ));
+
+    }
+
+    /**
      * @Route("/student/dashboard/exercice/{id}", name="student_exercice_show")
      */
     public function showExerciceAction($id) {
 
         $repo = $this->getDoctrine()->getRepository('RevizFrontBundle:Post');
-        
         $exercice = $repo->find(['id' => $id]);
         
         return $this->render('RevizFrontBundle:Student:show-exercice.html.twig', array(
-            'exercice' => $exercice
+            'exercice' => $exercice,
         ));
         
     }

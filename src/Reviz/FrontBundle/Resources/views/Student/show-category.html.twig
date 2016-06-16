@@ -12,7 +12,7 @@
             <ul>
                 {% if methods is not empty %}
                     {% for method in methods %}
-                        <li><a href="">{{ method }}</a></li>
+                        <li><a href="{{ path('student_method_show', { 'id' : method.getId() }) }}">{{ method }}</a></li>
                     {% endfor %}
                 {% else %}
                     <li>Pas de methodes disponibles</li>
@@ -25,7 +25,7 @@
             <ul>
                 {% if courses is not empty %}
                     {% for course in courses %}
-                        <li><a href="">{{ course }}</a></li>
+                        <li><a href="{{ path('student_course_show', { 'id' : course.getId() }) }}">{{ course }}</a></li>
                     {% endfor %}
                 {% else %}
                     <li>Pas de cours disponibles</li>
