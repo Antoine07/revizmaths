@@ -135,4 +135,27 @@ class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * getCat
+     *
+     * @param $postId
+     * @return array
+     *
+     * return categories where post assoc
+     */
+    public function getCat($postId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT c
+                FROM RevizFrontBundle:Category c
+                JOIN c.posts p
+                WHERE p.id = :id
+            ');
+
+        $query->setParameter('id', $postId);
+
+        return $query->getResult();
+    }
+
 }

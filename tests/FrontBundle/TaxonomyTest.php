@@ -150,5 +150,29 @@ class TaxonomyTest extends BaseTest
 
     }
 
+    public function testCategoriesByPost()
+    {
+        $add = $this->add();
+
+        $add('Category', 'addition et multiplication', 'Exercice', 2);
+
+        $exercices = $this->em
+            ->getRepository('RevizFrontBundle:Exercice')
+            ->findAll();
+
+        foreach($exercices as $exercice)
+        {
+            $categories = $this->em
+                ->getRepository('RevizFrontBundle:Taxonomy')
+                ->getCat($exercice->getId());
+
+            foreach($categories as $category){
+                $this->assertEquals('addition et multiplication', $category->getName());
+            }
+
+        }
+
+    }
+
 
 }

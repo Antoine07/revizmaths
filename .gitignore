@@ -17,4 +17,5 @@ composer.lock
 node_modules/
 deploy.sh
 casperJS/
+fabfile.py
 .idea/
