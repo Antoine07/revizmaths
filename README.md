@@ -1,5 +1,37 @@
 revizmaths
 ==========
+
+# Normes / bonnes pratiques classes CSS
+
+## Nommage d'une classe:
+
+``` html
+
+<body>
+    <section id="section"> <!-- élément parent = on utilise un id -->
+    
+        <article class="section-element"> <!-- premier élément enfant = on utlise une classe qui reprend le nom du parent + un trait d'union suivi du non de l'enfant -->
+            
+            <h2 class="section-element--title">Titre</h2> <!-- élément enfant d'un élément enfant = on utilise une classe qui reprend celle de son parent + le nom qu'on veut lui donner -->
+
+            <p class="section-element--description">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+        </article>
+
+        <article class="section-element">
+
+            <img src="img/empty.png" class="section-element--img">
+            
+        </article>
+
+        <article class="section-element">
+            
+        </article>
+        
+    </section>
+</body>
+```
+
 # tests PHPUnit / Travis
 
 [![Build Status](https://travis-ci.org/Antoine07/revizmaths.svg?branch=dev)](https://github.com/Antoine07/revizmaths)
