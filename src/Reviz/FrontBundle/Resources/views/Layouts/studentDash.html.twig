@@ -2,7 +2,8 @@
 <html>
 <head>
     {% block head %}
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="{{ asset('./assets/css/app.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('./assets/font-awesome-4.6.3/css/font-awesome.min.css') }}" />
         <title>{% block title %}{% endblock %} - My Webpage</title>
     {% endblock %}
 </head>
@@ -13,32 +14,31 @@
     <section id="sidebar-student">
         <div class="sidebar-container--image">
             <img class="student-image" src="" alt="image de l'utilisateur">
-            <p><a href=""><img src="sidebar-picto--email" alt="picto enveloppe pour email"></a></p>
+            <p class="mail-background"><a href=""><img src="{{ asset('./assets/images/mail.svg') }}" alt="picto enveloppe pour email"></a></p>
         </div>
         <ul class="sidebar-navigation">
-            <li><a>Dashboard</a></li>
-            <li><a>Agenda</a></li>
-            <li>Modules</li>
-            <li><a>Contacter mon prof</a></li>
-            <li><a>Paramètres</a></li>
+            <li><a href="{{ path('student_homepage') }}"><i class="fa fa-dashboard" aria-hidden="true"></i>Dashboard</a></li>
+            <li><a href=""><i class="fa fa-calendar" aria-hidden="true"></i>Agenda</a></li>
+            <li><a href=""><i class="fa fa-book" aria-hidden="true"></i>Modules</a></li>
+            <li><a href=""><i class="fa fa-black-tie" aria-hidden="true"></i>Contacter mon prof</a></li>
+            <li><a href="{{ path('student_settings') }}"><i class="fa fa-cog" aria-hidden="true"></i>Paramètres</a></li>
         </ul>
-    </section>
+    </section><!--
 
-    <!-- Conteneur central pour les contenu de l'utilisateur -->
-    <section id="container-student">
-
+    --><section id="container-student">
         <header id="main-header">
             <section id="header-top">
+
                 <section class="header-top--login-bar">
-                    <h1 class="main-logo">Maths'nifique</h1>
-                    <div>
+                    <h1 class="main-logo">Maths'nifique</h1><!--
+                 --><ul class="nav-login">
                         {% if app.user %}
-                            <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                            <li class="deconnexion"><a class="hvr-radial-out" href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>Déconnexion</a></li>
                         {% else %}
                             <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
                             <li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
                         {% endif %}
-                    </div>
+                    </ul>
                 </section>
                 <section class="header-top--nav-bar">
 

@@ -15,6 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class StudentController extends Controller
 {
+
+    public function menuStudentAction() {
+        $em = $this->getDoctrine()->getManager();
+        
+    }
+
     /**
      * @Route("/student/dashboard", name="student_homepage")
      */

@@ -2,7 +2,7 @@
     <html>
     <head>
         {% block head %}
-            <link rel="stylesheet" href="style.css" />
+            <link rel="stylesheet" href="{{ asset('./assets/css/app.min.css') }}" />
             <title>{% block title %}{% endblock %} - My Webpage</title>
         {% endblock %}
     </head>

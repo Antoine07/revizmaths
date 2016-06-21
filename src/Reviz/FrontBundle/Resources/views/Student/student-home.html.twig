@@ -2,9 +2,18 @@
 
 
 {% block content %}
-    <ul>
+    <section class="container-last-courses">
+        <h2 class="last-courses--title">Derniers cours vus</h2>
+        <div class="last-courses--bg">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab adipisci, deserunt dolores ducimus eaque earum eligendi esse fuga, iusto laborum libero, modi officia quos recusandae rerum tenetur totam voluptatem. Temporibus?</p>
+        </div>
+    </section>
+    <ul class="client-modules">
     {% for name, categories in modules %}
-        <li class="nav-level">{{ name }}
+        <li class="nav-modules">
+            <div class="module-container">
+                <h2 class="module-title">{{ name }}</h2>
+            </div>
             <ul>
                 {% for category in categories %}
                     <li class="nav-category"><a href="{{ path('student_category_show', {'id' : category.id}) }}">{{ category.name }}</a></li>

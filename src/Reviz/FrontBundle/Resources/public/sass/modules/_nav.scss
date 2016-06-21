@@ -1,0 +1,72 @@
+/* ---- NAV PRINCIPALE ---- */
+.search {
+  padding: 18px;
+  width: 28%;
+  border: none;
+  border-right: 1px solid #E0E0E0;
+  color: #F30040;
+  display: inline-block;
+  vertical-align: top;
+}
+.main-nav {
+  width: 72%;
+  display: inline-block;
+  vertical-align: top;
+}
+.main-nav ul {
+  text-align: right;
+  width: 100%;
+  display: block;
+}
+.main-nav ul > li{
+  display: inline-block;
+  vertical-align: top;
+}
+.main-nav ul li a{
+  font-family: archive, Verdana, Arial, sans-serif;
+  display: block;
+  padding: 21px 18px 18px;
+  font-size: 1.2rem;
+  color: #999999;
+}
+.main-nav ul li:hover .second-nav{
+  z-index: 1000;
+  display: block;
+  position: fixed;
+  z-index: 1;
+  top: 107px;
+  right: 0;
+  width: 100%;
+  font-size: 0.9em;
+  background-color: #f2003f;
+  padding: 15px 20px;
+}
+.main-nav ul li .second-nav {
+  display: none;
+}
+.main-nav ul li .second-nav li  {
+  display: block;
+  margin: 5px 0;
+}
+.main-nav ul li .second-nav li a{
+  font-family: archive, Verdana, Arial, sans-serif;
+  display: inline-block;
+  padding: 10px;
+  color: #ffffff;
+  transition: 0.3s;
+}
+.main-nav ul li .second-nav li a:hover{
+  background-color: #ffffff;
+  transition: 0.3s;
+  color: #f2003f;
+}
+.formation:hover {
+  background-color: #f2003f;
+}
+.formation:hover a{
+  color: #ffffff;
+}
+
+
+
+

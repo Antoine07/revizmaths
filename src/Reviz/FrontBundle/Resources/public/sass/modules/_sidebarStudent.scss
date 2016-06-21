@@ -1,0 +1,191 @@
+// sass pour la sidebar de l'étudiant
+
+/* ---- GLOBAL CSS ---- */
+html {
+  font-size: 62.5%;
+}
+body {
+  background-color: #E7EDED;
+  width: 100%;
+}
+#sidebar-student {
+  z-index: 5000;
+  position: fixed;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 260px;
+  background-color: #ffffff;
+  display: inline-block;
+}
+.sidebar-container--image {
+  width: 100%;
+  background-color: #00AB81;
+  height: 260px;
+  position: relative;
+}
+.student-image {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-color: #01936C;
+  border-radius: 50%;
+  display: block;
+  border: none;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.mail-background {
+  bottom: 50px;
+  left: 30px;
+  position: absolute;
+  width: 34px;
+  border-radius: 50%;
+  background-color: #00926B;
+  text-align: center;
+}
+.mail-background a{
+  width: 100%;
+  padding: 7px 0;
+  display: block;
+}
+.mail-background a img{
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+
+.sidebar-navigation {
+  width: 100%;
+  display: block;
+}
+.sidebar-navigation li {
+  font-size: 1.4rem;
+  font-family: Archive, Verdana, Arial, sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+  border-bottom: 2px solid #F6FCFA;
+  color: #9FC6B4;
+  transition: 0.5s;
+}
+.sidebar-navigation li:hover {
+  background-color: #00D295;
+  transition: 0.5s;
+  color: #ffffff;
+}
+.sidebar-navigation li:hover i, .sidebar-navigation li:hover a{
+  color: #ffffff;
+}
+.sidebar-navigation li i{
+  font-size: 1.6rem;
+  padding: 23px 20px;
+  display: inline-block;
+}
+.sidebar-navigation li a{
+  text-decoration: none;
+  width: 100%;
+  color: #9FC6B4;
+  display: inline-block;
+}
+
+
+/* ---- HEADER SIDEBAR ---- */
+#container-student {
+  width: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 0 0 0 260px;
+  vertical-align: top;
+}
+#main-header {
+  width: 100%;
+}
+.header-top {
+  width: 100%;
+}
+.header-top--login-bar {
+  position: relative;
+  background-color: #01C18E;
+  width: 100%;
+  height: 56px;
+}
+.main-logo {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+}
+.nav-login {
+  text-align: right;
+  width: 80%;
+  vertical-align: top;
+  display: inline-block;
+}
+.nav-login li a{
+  text-decoration: none;
+}
+.nav-login .deconnexion {
+  display: inline-block;
+}
+.nav-login .deconnexion a {
+  display: block;
+  padding: 20px;
+  background-color: #F30040;
+  font-size: 1.4rem;
+  color: #ffffff;
+  font-family: Archive, Verdana, Arial, sans-serif;
+}
+.nav-login .deconnexion i {
+  padding: 0 20px 0 0;
+}
+.header-top--nav-bar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+/* ######## EFFET HOVER DECONNEXION ######## */
+.hvr-radial-out {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden;
+  background: #e1e1e1;
+  -webkit-transition-property: color;
+  transition-property: color;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+
+.hvr-radial-out:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #A80034;
+  border-radius: 100%;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+  opacity: 0.5;
+}
+.hvr-radial-out:hover, .hvr-radial-out:focus, .hvr-radial-out:active {
+  color: white;
+}
+.hvr-radial-out:hover:before, .hvr-radial-out:focus:before, .hvr-radial-out:active:before {
+  -webkit-transform: scale(2);
+  transform: scale(2);
+}

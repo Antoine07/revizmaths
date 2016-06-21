@@ -1,0 +1,63 @@
+.container-last-courses {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 0 20px 20px;
+}
+.last-courses--title {
+  color: #585858;
+  padding: 20px 0 10px 0;
+  font-size: 2.2rem;
+  font-family: GeomanistRegular, Verdana, Arial, sans-serif;
+}
+.last-courses--bg {
+  background-color: #FFFFFF;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #E0E0E0;
+}
+.client-modules {
+  padding: 10px;
+}
+.nav-modules {
+  font-size: 0;
+  width: 33%;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+.module-container{
+  padding: 12px;
+  background-color: #00AB81;
+}
+.module-title {
+  font-size: 2rem;
+  font-family: Archive, Verdana, Arial, sans-serif;
+  color: #ffffff;
+}
+.nav-modules ul {
+  width: 100%;
+}
+.nav-modules ul li{
+  transition: 0.3s;
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #00714D;
+  background-color: #018963;
+  box-sizing: border-box;
+}
+.nav-modules ul li a {
+  display: block;
+  font-size: 1.3rem;
+  color: #ffffff;
+  padding: 14px;
+  font-family: GeomanistRegular, Verdana, Arial, sans-serif;
+}
+.nav-modules ul li:hover {
+  border-left: 6px solid #F30040;
+  transition: 0.3s;
+}
+.nav-modules ul li:hover a {
+  font-size: 1.3rem;
+}
