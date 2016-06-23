@@ -11,7 +11,7 @@
         <header id="main-header">
             <section id="header-top">
                 <section class="header-top--login-bar">
-                    <h1 class="main-logo">Maths'nifique</h1>
+                    {#<h1 class="main-logo">Maths'nifique</h1>#}
                     <ul>
                         {% if app.user %}
                             <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
@@ -19,7 +19,6 @@
                             <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
                             <li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
                         {% endif %}
-                        <li><a href="{{ path('indexUsers') }}">Users</a></li>
                     </ul>
                 </section>
                 <section class="header-top--nav-bar">
@@ -27,9 +26,6 @@
                     {{ render(controller("RevizFrontBundle:Front:menu")) }}
 
                 </section>
-            </section>
-            <section id="header-image">
-                <img src="{{ asset('assets/img/header-bg.jpg') }}" alt="Image fond header" class="header-image--img">
             </section>
         </header>
 

@@ -1,0 +1,191 @@
+#header-image {
+
+  img {
+    width: 100%;
+  }
+}
+
+.section-title {
+  font-family: GeomanistRegular;
+  font-size: 3rem;
+  text-transform: uppercase;
+  color: #6b6b6e;
+  text-align: center;
+  padding-bottom: 36px;
+}
+
+#info {
+  margin: 70px 0 100px;
+
+  .info-container {
+    background-color: #f2003f;
+    color: #ffffff;
+  }
+  .propositions-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    li {
+      width: 250px;
+      text-align: center;
+      padding: 36px 0 40px;
+
+      .list-title, .list-number {
+        font-family: Archive;
+        font-size: 2.2rem;
+      }
+      .list-title {
+        margin-bottom: 28px;
+      }
+      .list-number {
+        font-size: 5rem;
+      }
+      .italic {
+        font-family: Arial;
+        font-size: 1.6rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.8em;
+        margin-top: 22px;
+      }
+    }
+  }
+}
+
+#formula {
+  margin-bottom: 100px;
+
+  .formula-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .formula-list--element {
+      position: relative;
+      width: 600px;
+      height: 220px;
+      background-color: #FFFFFF;
+      border-bottom: solid 2px #e0e0e0;
+    }
+
+    .red h2 {
+      color: #f2003f;
+    }
+
+    .yellow h2 {
+      color: #ff9536;
+    }
+
+    .red .formula-color-square {
+      background-color: #f2003f;
+    }
+
+    .yellow .formula-color-square {
+      background-color: #ff9536;
+    }
+
+    .red .formula-color-square span {
+      color: #f2003f;
+    }
+
+    .yellow .formula-color-square span {
+      color: #ff9536;
+    }
+
+    .formula-color-square {
+      width: 120px;
+      height: 100%;
+      float: left;
+      position: relative;
+
+      span {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        background-color: #FFFFFF;
+        text-align: center;
+        line-height: 50px;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-family: Archive;
+        font-size: 1.6rem;
+      }
+    }
+
+    .formula-title {
+      font-family: Archive;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      padding: 20px 48px 20px 168px;
+    }
+
+    .formula-description {
+      font-family: GeomanistRegular;
+      font-size: 1.2rem;
+      color: #a0a0a0;
+      padding: 0 48px 0 168px;
+    }
+
+    .formula-list--options {
+      padding: 20px 48px 0 168px;
+
+      li {
+        font-family: GeomanistRegular;
+        font-size: 1.5rem;
+        color: #a0a0a0;
+        display: block;
+        list-style: circle !important;
+        padding: 3px 0;
+      }
+    }
+
+    .formula-price {
+      position: absolute;
+      right: 20px;
+      bottom: 15px;
+      font-family: Archive;
+      font-size: 2.6rem;
+    }
+  }
+}
+
+#questions {
+  margin-bottom: 100px;
+
+  .questions-container {
+    background-color: #FFFFFF;
+    border-bottom: solid 2px #e0e0e0;
+    
+    .questions-title {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+
+      li {
+
+        .questions-number {
+          display: inline-block;
+          background-color: #ff9536;
+          font-family: Archive;
+          font-size: 1.8rem;
+          color: #ffffff;
+          border-radius: 50%;
+          width: 25px;
+          height: 25px;
+          text-align: center;
+          line-height: 28px;
+          margin: 40px 25px 40px 0;
+        }
+
+        .questions-text {
+          font-family: GeomanistRegular;
+          font-size: 1.2rem;
+          color: #a0a0a0;
+        }
+      }
+    }
+  }
+}

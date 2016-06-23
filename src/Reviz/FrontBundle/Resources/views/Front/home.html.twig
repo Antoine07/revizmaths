@@ -2,99 +2,105 @@
 
 {% block content %}
 
+    <section id="header-image">
+        <img src="{{ asset('assets/images/header-bg.jpg') }}" alt="Image fond header" class="header-image--img">
+    </section>
+
     <section id="info">
         <h2 class="section-title">Ce que nous proposons</h2>
-        <ul class="formula-list">
-            <li>
-                <h3 class="list-title">Méthodes</h3>
-                <span class="list-number">
-                    {% if resourses is not empty %}
-                        {{ resourses[2] }}
-                    {% else %}
-                        &empty;
-                    {% endif %}
-                </span>
-                <p class="italic">De nombreuses méthodes pour bien réussir ces examents</p>
-            </li><!--
-         --><li>
-                <h3 class="list-title">Cours</h3>
-                <span class="list-number">
-                    {% if resourses is not empty %}
-                        {{ resourses[1] }}
-                    {% else %}
-                        &empty;
-                    {% endif %}</span>
-                <p class="italic">De nombreuses méthodes pour bien réussir ces examents</p>
-            </li><!--
-         --><li>
-                <h3 class="list-title">Exercices</h3>
-                <span class="list-number">
-                    {% if resourses is not empty %}
-                        {{ resourses[3] }}
-                    {% else %}
-                        &empty;
-                    {% endif %}
-                </span>
-                <p class="italic">De nombreuses méthodes pour bien réussir ces examents</p>
-            </li>
-        </ul>
+        <div class="info-container">
+            <ul class="propositions-list">
+                <li>
+                    <h3 class="list-title">Méthodes</h3>
+                    <span class="list-number">
+                        {% if resourses is not empty %}
+                            {{ resourses[2] }}
+                        {% else %}
+                            &empty;
+                        {% endif %}
+                    </span>
+                    <p class="italic">De nombreuses méthodes pour bien réussir ses examens</p>
+                </li><!--
+             --><li>
+                    <h3 class="list-title">Cours</h3>
+                    <span class="list-number">
+                        {% if resourses is not empty %}
+                            {{ resourses[1] }}
+                        {% else %}
+                            &empty;
+                        {% endif %}</span>
+                    <p class="italic">De nombreuses méthodes pour bien réussir ses examens</p>
+                </li><!--
+             --><li>
+                    <h3 class="list-title">Exercices</h3>
+                    <span class="list-number">
+                        {% if resourses is not empty %}
+                            {{ resourses[3] }}
+                        {% else %}
+                            &empty;
+                        {% endif %}
+                    </span>
+                    <p class="italic">De nombreuses méthodes pour bien réussir ses examens</p>
+                </li>
+            </ul>
+        </div>
     </section>
 
     <section id="formula">
-        <h2 class="section-title">Ce que nous proposons</h2>
-        <ul>
-            <li>
+        <h2 class="section-title">Choisissez nos formules</h2>
+        <ul class="formula-list">
+            <li class="formula-list--element red">
+                <div class="formula-color-square"><span>1</span></div>
                 <h2 class="formula-title">Formule module+</h2>
                 <p class="formula-description">
                     Le Lorem Ipsum est simplement du faux texte employé dans la composition
-                    et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de
-                    l'imprimerie depuis les années 1500, quand un peintre anonyme assembla
-                    ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.
+                    et la mise en page avant impression.
                 </p>
-                <ul class="formula-list">
+                <ul class="formula-list--options">
                     <li>Correction par un prof</li>
                     <li>Suivi</li>
                     <li>Cours, exercices, méthodes, QCM</li>
                 </ul>
-                <span>30 euros</span>
+                <span class="formula-price">10 €</span>
             </li><!--
-         --><li>
+         --><li class="formula-list--element yellow">
+                <div class="formula-color-square"><span>2</span></div>
                 <h2 class="formula-title">Formule parcours+</h2>
                 <p class="formula-description">
                     Le Lorem Ipsum est simplement du faux texte employé dans la composition
                     et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de
-                    l'imprimerie depuis les années 1500, quand un peintre anonyme assembla
-                    ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.
+                    l'imprimerie depuis les années 1500.
                 </p>
-                <ul class="formula-list">
+                <ul class="formula-list--options">
                     <li>Correction par un prof</li><!--
                  --><li>Suivi</li><!--
                  --><li>Cours, exercices, méthodes, QCM</li>
                 </ul>
-                <span>30 euros</span>
+                <span class="formula-price">100 €</span>
             </li>
         </ul>
     </section>
 
     <section id="questions">
         <h2 class="section-title">Les questions que vous vous posez.</h2>
-        <ul class="questions-title">
-            <li>
-                <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition</p>
-            </li><!--
-         --><li>
-                <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition</p>
-            </li><!--
-         --><li>
-                <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition</p>
-            </li>
-        </ul>
+        <div class="questions-container">
+            <ul class="questions-title">
+                <li>
+                    <p><span class="questions-number">1</span><span class="questions-text">Le Lorem Ipsum est simplement du faux texte employé dans la composition</span></p>
+                </li><!--
+             --><li>
+                    <p><span class="questions-number">2</span><span class="questions-text">Le Lorem Ipsum est simplement du faux texte employé dans la composition</span></p>
+                </li><!--
+             --><li>
+                    <p><span class="questions-number">3</span><span class="questions-text">Le Lorem Ipsum est simplement du faux texte employé dans la composition</span></p>
+                </li>
+            </ul>
+        </div>
     </section>
 
     <aside id="actu">
         <h2 class="section-title">Toute l'actualité</h2>
         <div class="actu-flux">
-
         </div>
     </aside>
 {% endblock content %}
